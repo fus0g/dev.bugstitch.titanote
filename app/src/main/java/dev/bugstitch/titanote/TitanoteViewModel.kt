@@ -12,6 +12,7 @@ import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.data.NoteState
 import dev.bugstitch.titanote.repository.NotesDatabaseRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -53,6 +54,16 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
         currentNote = null
     }
 
+    fun emptyCurrent()
+    {
+        viewModelScope.launch {
+
+            delay(500)
+            _noteContent.value = ""
+            _noteTitle.value = ""
+        }
+    }
+
     fun addNote()
     {
         if(_noteContent.value != "" && _noteTitle.value != "")
@@ -64,6 +75,7 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
             )
             viewModelScope.launch(Dispatchers.IO){
                 notesDatabaseRepository.insertNote(note)
+                emptyCurrent()
             }
         }
     }
