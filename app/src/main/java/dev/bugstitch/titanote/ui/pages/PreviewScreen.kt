@@ -22,8 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.utils.Navigation
 
@@ -42,7 +44,7 @@ fun PreviewScreen(viewModel: TitanoteViewModel,navController: NavController) {
             }, modifier = Modifier.size(50.dp).background(MaterialTheme.colorScheme.primary, shape = CircleShape).clip(
                 CircleShape
             )) {
-                Icon(imageVector = Icons.Default.Edit, contentDescription = "", Modifier.size(50.dp))
+                Icon(imageVector = Icons.Default.Edit, contentDescription = stringResource(R.string.edit), Modifier.size(50.dp))
             }
         }) { innerPadding ->
 

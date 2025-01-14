@@ -23,8 +23,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.utils.Navigation
 import java.text.SimpleDateFormat
@@ -45,13 +47,13 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
             .size(65.dp)
             .background(MaterialTheme.colorScheme.primary, shape = CircleShape)
             .clip(CircleShape)) {
-            Icon(Icons.Default.Add, contentDescription = "", tint = MaterialTheme.colorScheme.onPrimary)
+            Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_note), tint = MaterialTheme.colorScheme.onPrimary)
         }
     } ) {
         Column(modifier = Modifier.padding(it)) {
 
             AnimatedVisibility(noteList.value.notes.isEmpty()) {
-                Text("No Notes Yet!")
+                Text(stringResource(R.string.no_notes))
             }
             AnimatedVisibility(noteList.value.notes.isNotEmpty()) {
                 LazyColumn {
@@ -70,13 +72,13 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
                                 Row{
                                     Button(onClick = {
                                         viewModel.deleteNote(note)
-                                    }) { Text("Delete") }
+                                    }) { Text(stringResource(R.string.delete)) }
                                     Button(onClick = {
                                         viewModel.setNoteTitle(note.title)
                                         viewModel.setNoteContent(note.content)
                                         viewModel.setCurrentNote(note)
                                         navController.navigate(Navigation.EDIT_NOTE)
-                                    }) { Text("Edit") }
+                                    }) { Text(stringResource(R.string.edit)) }
                                 }
                             }
                         }

@@ -22,8 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.utils.Navigation
 
@@ -43,7 +45,7 @@ fun CreateNote(viewModel: TitanoteViewModel,navController: NavController)
                 viewModel.addNote()
                                  }, modifier = Modifier.size(50.dp).background(MaterialTheme.colorScheme.primary, shape = CircleShape).clip(
                 CircleShape)) {
-                Icon(imageVector = Icons.Default.Done, contentDescription = "",Modifier.size(50.dp))
+                Icon(imageVector = Icons.Default.Done, contentDescription = stringResource(R.string.save_note),Modifier.size(50.dp))
             }
         }) { innerPadding ->
 
@@ -53,7 +55,7 @@ fun CreateNote(viewModel: TitanoteViewModel,navController: NavController)
             TextField(value = viewModel.noteTitle.value, onValueChange = {
                 viewModel.setNoteTitle(it)
             },
-                placeholder = { Text("Title") },
+                placeholder = { Text(stringResource(R.string.title)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.colors().copy(unfocusedContainerColor = Color.Transparent,
                     focusedContainerColor = Color.Transparent,
@@ -63,7 +65,7 @@ fun CreateNote(viewModel: TitanoteViewModel,navController: NavController)
             TextField(value = viewModel.noteContent.value, onValueChange = {
                 viewModel.setNoteContent(it)
             },
-                placeholder = { Text("What's in your mind!") },
+                placeholder = { Text(stringResource(R.string.content)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.colors().copy(unfocusedContainerColor = Color.Transparent,
                     focusedContainerColor = Color.Transparent,

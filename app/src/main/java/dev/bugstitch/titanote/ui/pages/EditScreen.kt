@@ -22,8 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.utils.Navigation
 
@@ -33,7 +35,7 @@ fun EditScreen(viewModel: TitanoteViewModel,navController: NavController) {
 
     BackHandler {
        // Log.d("BackHandler",navController.previousBackStackEntry?.destination?.route.toString() )
-        if(navController.previousBackStackEntry?.destination?.route.toString() == Navigation.PREVIEW_SCREEN)
+        if(navController.previousBackStackEntry?.destination?.route == Navigation.PREVIEW_SCREEN)
         {
             navController.navigate(Navigation.PREVIEW_SCREEN)
         }else{
@@ -46,7 +48,7 @@ fun EditScreen(viewModel: TitanoteViewModel,navController: NavController) {
     },
         floatingActionButton = {
             IconButton(onClick = {
-                if(navController.previousBackStackEntry?.destination?.route.toString() == Navigation.PREVIEW_SCREEN)
+                if(navController.previousBackStackEntry?.destination?.route == Navigation.PREVIEW_SCREEN)
                 {
                     navController.navigate(Navigation.PREVIEW_SCREEN)
                 }else{
@@ -58,7 +60,7 @@ fun EditScreen(viewModel: TitanoteViewModel,navController: NavController) {
             }, modifier = Modifier.size(50.dp).background(MaterialTheme.colorScheme.primary, shape = CircleShape).clip(
                 CircleShape
             )) {
-                Icon(imageVector = Icons.Default.Done, contentDescription = "", Modifier.size(50.dp))
+                Icon(imageVector = Icons.Default.Done, contentDescription = stringResource(R.string.save_note), Modifier.size(50.dp))
             }
         }) { innerPadding ->
 
@@ -68,7 +70,7 @@ fun EditScreen(viewModel: TitanoteViewModel,navController: NavController) {
             TextField(value = viewModel.noteTitle.value, onValueChange = {
                 viewModel.setNoteTitle(it)
             },
-                placeholder = { Text("Title") },
+                placeholder = { Text(stringResource(R.string.title)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.colors().copy(unfocusedContainerColor = Color.Transparent,
                     focusedContainerColor = Color.Transparent,
@@ -78,7 +80,7 @@ fun EditScreen(viewModel: TitanoteViewModel,navController: NavController) {
             TextField(value = viewModel.noteContent.value, onValueChange = {
                 viewModel.setNoteContent(it)
             },
-                placeholder = { Text("What's in your mind!") },
+                placeholder = { Text(stringResource(R.string.content)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.colors().copy(unfocusedContainerColor = Color.Transparent,
                     focusedContainerColor = Color.Transparent,
