@@ -1,5 +1,6 @@
 package dev.bugstitch.titanote
 
+import androidx.compose.material3.TopAppBarState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.data.NoteState
 import dev.bugstitch.titanote.repository.NotesDatabaseRepository
+import dev.bugstitch.titanote.utils.TopBarState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -35,6 +37,15 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     private val _noteContent = mutableStateOf("")
     val noteContent: MutableState<String> = _noteContent
 
+    private val _searchText = mutableStateOf("")
+    val searchText: MutableState<String> = _searchText
+
+    private val _searchState = mutableStateOf(false)
+    val searchState: MutableState<Boolean> = _searchState
+
+    private val _topBarState = mutableStateOf(TopBarState.Home)
+    val topBarState: MutableState<TopBarState> = _topBarState
+
     private var currentNote:Note? = null
 
     fun setNoteContent(text:String){
@@ -52,6 +63,17 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     fun nullCurrentNote()
     {
         currentNote = null
+    }
+
+    fun setSearchState(state:Boolean){
+        _searchState.value = state
+    }
+
+    fun setTopBarState(state: TopBarState){
+        _topBarState.value = state
+    }
+    fun setSearchText(text:String){
+        _searchText.value = text
     }
 
     fun emptyCurrent()
