@@ -7,4 +7,6 @@
     <string name="save_note">Save Note</string>
     <string name="title">Your title</string>
     <string name="content">What\'s in your mind\!</string>
+    <string name="search">Search</string>
+    <string name="should_not_be_empty">Title or body cannot be empty!</string>
 </resources>

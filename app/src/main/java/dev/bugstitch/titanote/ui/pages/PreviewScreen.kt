@@ -25,9 +25,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Pen
 import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
+import dev.bugstitch.titanote.ui.components.AddButton
+import dev.bugstitch.titanote.ui.components.TopBar
 import dev.bugstitch.titanote.utils.Navigation
+import dev.bugstitch.titanote.utils.TopBarState
 
 @Composable
 fun PreviewScreen(viewModel: TitanoteViewModel,navController: NavController) {
@@ -35,16 +40,19 @@ fun PreviewScreen(viewModel: TitanoteViewModel,navController: NavController) {
         navController.navigate(Navigation.HOME)
         viewModel.emptyCurrent()
     }
-    Scaffold(topBar = {
 
+    viewModel.setTopBarState(TopBarState.Preview)
+
+
+    Scaffold(topBar = {
+        TopBar(viewModel,
+            onDelete = {
+                navController.navigate(Navigation.HOME)
+            })
     },
         floatingActionButton = {
-            IconButton(onClick = {
+            AddButton(Lucide.Pen) {
                 navController.navigate(Navigation.EDIT_NOTE)
-            }, modifier = Modifier.size(50.dp).background(MaterialTheme.colorScheme.primary, shape = CircleShape).clip(
-                CircleShape
-            )) {
-                Icon(imageVector = Icons.Default.Edit, contentDescription = stringResource(R.string.edit), Modifier.size(50.dp))
             }
         }) { innerPadding ->
 

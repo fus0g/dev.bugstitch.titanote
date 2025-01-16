@@ -1,6 +1,9 @@
 package dev.bugstitch.titanote.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,7 +20,8 @@ fun Titanote(viewModel: TitanoteViewModel = viewModel(factory = TitanoteViewMode
 {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Navigation.HOME){
+    NavHost(navController = navController, startDestination = Navigation.HOME,
+        modifier = Modifier.background(MaterialTheme.colorScheme.background)){
         composable(route = Navigation.CREATE_NOTE){
             CreateNote(viewModel,navController)
         }

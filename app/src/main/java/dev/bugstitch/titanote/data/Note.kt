@@ -12,8 +12,10 @@ import java.util.Date
 data class Note(
     @PrimaryKey(autoGenerate = true)
     val id:Int = 0,
-    val title:String,
-    val content:String,
-    val date: Date,
+    var title:String,
+    var content:String,
+    var date: Date,
+    val color:Int,
+    val logo:Int,
 )
 

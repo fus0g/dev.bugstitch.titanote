@@ -2,6 +2,7 @@ package dev.bugstitch.titanote
 
 import androidx.compose.material3.TopAppBarState
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -46,6 +47,19 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     private val _topBarState = mutableStateOf(TopBarState.Home)
     val topBarState: MutableState<TopBarState> = _topBarState
 
+    private val _noteColor = mutableIntStateOf(0)
+    val noteColor: MutableState<Int> = _noteColor
+
+    private val _selectColorState = mutableStateOf(false)
+    val selectColorState: MutableState<Boolean> = _selectColorState
+
+    private val _selectNoteLogoState = mutableStateOf(false)
+    val selectNoteLogoState: MutableState<Boolean> = _selectNoteLogoState
+
+    private val _noteLogo = mutableIntStateOf(0)
+    val noteLogo: MutableState<Int> = _noteLogo
+
+
     private var currentNote:Note? = null
 
     fun setNoteContent(text:String){
@@ -57,12 +71,21 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     }
 
     fun setCurrentNote(note: Note){
+        _noteContent.value = note.content
+        _noteTitle.value = note.title
+        _noteColor.intValue = note.color
+        _noteLogo.intValue = note.logo
         currentNote = note
     }
 
     fun nullCurrentNote()
     {
         currentNote = null
+    }
+
+    fun getCurrentNote():Note?
+    {
+        return currentNote
     }
 
     fun setSearchState(state:Boolean){
@@ -83,7 +106,31 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
             delay(500)
             _noteContent.value = ""
             _noteTitle.value = ""
+            _noteColor.intValue = 0
+            _selectColorState.value = false
+            _selectNoteLogoState.value = false
+            _noteLogo.intValue = 0
         }
+    }
+
+    fun setSelectColorState(state:Boolean){
+        _selectColorState.value = state
+    }
+
+    fun setNoteColor(color:Int){
+        _noteColor.intValue = color
+    }
+
+    fun setNoteLogo(logo:Int){
+        _noteLogo.intValue = logo
+    }
+
+    fun setSelectNoteLogoState(state:Boolean){
+        _selectNoteLogoState.value = state
+    }
+
+    fun checkEmpty():Boolean{
+        return _noteContent.value == "" || _noteTitle.value == ""
     }
 
     fun addNote()
@@ -93,7 +140,9 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
             val note = Note(
                 title = _noteTitle.value,
                 content = _noteContent.value,
-                date = Date()
+                date = Date(),
+                color = _noteColor.intValue,
+                logo = _noteLogo.intValue
             )
             viewModelScope.launch(Dispatchers.IO){
                 notesDatabaseRepository.insertNote(note)
@@ -108,7 +157,9 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
         {
             val newNote = currentNote!!.copy(title = _noteTitle.value,
                 content = _noteContent.value,
-                date = Date())
+                date = Date(),
+                color = _noteColor.intValue,
+                logo = _noteLogo.intValue)
 
             viewModelScope.launch(Dispatchers.IO){
                 notesDatabaseRepository.updateNote(newNote)

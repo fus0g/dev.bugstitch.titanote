@@ -28,20 +28,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.composables.icons.lucide.BadgePlus
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Plus
 import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
+import dev.bugstitch.titanote.ui.components.AddButton
 import dev.bugstitch.titanote.ui.components.TopBar
 import dev.bugstitch.titanote.utils.Navigation
 import dev.bugstitch.titanote.utils.TopBarState
 import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.Scanner
 
 @Composable
 fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
 
     BackHandler {}
+
+    viewModel.setTopBarState(TopBarState.Home)
 
     val noteList = viewModel.notes.collectAsState()
 
@@ -49,14 +55,9 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
         TopBar(viewModel)
     },
         floatingActionButton = {
-        IconButton(onClick = {
-            navController.navigate(Navigation.CREATE_NOTE)
-        }, modifier = Modifier
-            .size(65.dp)
-            .background(MaterialTheme.colorScheme.primary, shape = CircleShape)
-            .clip(CircleShape)) {
-            Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_note), tint = MaterialTheme.colorScheme.onPrimary)
-        }
+            AddButton(Lucide.Plus) {
+                navController.navigate(Navigation.CREATE_NOTE)
+            }
     } ) {
         Column(modifier = Modifier.padding(it)) {
 
@@ -74,8 +75,6 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
                             item {
                                 Column(modifier = Modifier.clickable {
                                     viewModel.setCurrentNote(note)
-                                    viewModel.setNoteTitle(note.title)
-                                    viewModel.setNoteContent(note.content)
                                     navController.navigate(Navigation.PREVIEW_SCREEN)
                                 }) {
                                     Text(note.title)
@@ -87,8 +86,6 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
                                             viewModel.deleteNote(note)
                                         }) { Text(stringResource(R.string.delete)) }
                                         Button(onClick = {
-                                            viewModel.setNoteTitle(note.title)
-                                            viewModel.setNoteContent(note.content)
                                             viewModel.setCurrentNote(note)
                                             navController.navigate(Navigation.EDIT_NOTE)
                                         }) { Text(stringResource(R.string.edit)) }
@@ -103,8 +100,6 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
                             item {
                                 Column(modifier = Modifier.clickable {
                                     viewModel.setCurrentNote(note)
-                                    viewModel.setNoteTitle(note.title)
-                                    viewModel.setNoteContent(note.content)
                                     navController.navigate(Navigation.PREVIEW_SCREEN)
                                 }) {
                                     Text(note.title)
@@ -116,8 +111,6 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
                                             viewModel.deleteNote(note)
                                         }) { Text(stringResource(R.string.delete)) }
                                         Button(onClick = {
-                                            viewModel.setNoteTitle(note.title)
-                                            viewModel.setNoteContent(note.content)
                                             viewModel.setCurrentNote(note)
                                             navController.navigate(Navigation.EDIT_NOTE)
                                         }) { Text(stringResource(R.string.edit)) }
