@@ -35,6 +35,7 @@ import com.composables.icons.lucide.Save
 import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.ui.components.AddButton
+import dev.bugstitch.titanote.ui.components.EditComponent
 import dev.bugstitch.titanote.ui.components.LogoButton
 import dev.bugstitch.titanote.ui.components.TopBar
 import dev.bugstitch.titanote.utils.Logos
@@ -69,36 +70,7 @@ fun CreateNote(viewModel: TitanoteViewModel,navController: NavController)
         },
         modifier = Modifier.imePadding()) { innerPadding ->
 
-        Column(modifier = Modifier.padding(innerPadding)
-            .fillMaxSize()) {
-
-            TextField(value = viewModel.noteTitle.value, onValueChange = {
-                viewModel.setNoteTitle(it)
-            },
-                placeholder = { Text(stringResource(R.string.title)) },
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.colors().copy(unfocusedContainerColor = Color.Transparent,
-                    focusedContainerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent),
-                leadingIcon = {
-                    LogoButton(icon = Logos[viewModel.noteLogo.value], static = true) {
-                        viewModel.setSelectNoteLogoState(!viewModel.selectNoteLogoState.value)
-                    }
-                }
-            )
-            TextField(value = viewModel.noteContent.value, onValueChange = {
-                viewModel.setNoteContent(it)
-            },
-                placeholder = { Text(stringResource(R.string.content)) },
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.colors().copy(unfocusedContainerColor = Color.Transparent,
-                    focusedContainerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent)
-            )
-
-        }
+        EditComponent(modifier = Modifier.padding(innerPadding), viewModel)
 
     }
 }

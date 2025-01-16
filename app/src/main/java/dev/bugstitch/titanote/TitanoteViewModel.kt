@@ -53,7 +53,7 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     private val _selectColorState = mutableStateOf(false)
     val selectColorState: MutableState<Boolean> = _selectColorState
 
-    private val _selectNoteLogoState = mutableStateOf(false)
+    private val _selectNoteLogoState = mutableStateOf(true)
     val selectNoteLogoState: MutableState<Boolean> = _selectNoteLogoState
 
     private val _noteLogo = mutableIntStateOf(0)

@@ -16,20 +16,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import dev.bugstitch.titanote.ui.theme.ZenColors
 
 @Composable
 fun LogoButton(modifier: Modifier = Modifier,icon:ImageVector,static:Boolean,onClick:()->Unit)
 {
-    Box(modifier = modifier.padding(4.dp))
+    Box()
     {
         Box(modifier = modifier
-            .size(48.dp)
-            .border(if(!static) 2.dp else 0.dp, if(!static)MaterialTheme.colorScheme.primary else Color.Transparent, CircleShape)
+            .size(if(static)62.dp else 32.dp)
             .clip(CircleShape)
             .clickable { onClick() }, contentAlignment = Alignment.Center)
         {
 
-            Icon(imageVector = icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            Icon(imageVector = icon, contentDescription = null, tint = if(static)ZenColors.Night else MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(if(static)54.dp else 32.dp))
         }
     }
 }
