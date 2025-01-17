@@ -4,11 +4,14 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -36,6 +39,7 @@ import com.composables.icons.lucide.Plus
 import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.ui.components.AddButton
+import dev.bugstitch.titanote.ui.components.NoteCard
 import dev.bugstitch.titanote.ui.components.TopBar
 import dev.bugstitch.titanote.utils.Navigation
 import dev.bugstitch.titanote.utils.TopBarState
@@ -65,7 +69,8 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
                 Text(stringResource(R.string.no_notes))
             }
             AnimatedVisibility(noteList.value.notes.isNotEmpty()) {
-                LazyColumn {
+                LazyVerticalGrid(columns = GridCells.FixedSize(175.dp), modifier = Modifier.padding(4.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly) {
                     if(viewModel.searchState.value && viewModel.searchText.value != "")
                     {
                         noteList.value.notes.filter {
@@ -73,23 +78,21 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
                         }.forEach {
                             note->
                             item {
-                                Column(modifier = Modifier.clickable {
+                                NoteCard(color = note.color,
+                                    title = note.title,
+                                    content = note.content,
+                                    date = note.date,
+                                    logo = note.logo,
+                                    edit = {
+                                        viewModel.setCurrentNote(note)
+                                        navController.navigate(Navigation.EDIT_NOTE)
+                                    },
+                                    delete = {
+                                        viewModel.deleteNote(note)
+                                    })
+                                {
                                     viewModel.setCurrentNote(note)
                                     navController.navigate(Navigation.PREVIEW_SCREEN)
-                                }) {
-                                    Text(note.title)
-                                    Text(note.content)
-                                    Text(text = SimpleDateFormat("dd/mm/yyyy 'at' hh:mm a",Locale.getDefault()).format(note.date).toString())
-
-                                    Row{
-                                        Button(onClick = {
-                                            viewModel.deleteNote(note)
-                                        }) { Text(stringResource(R.string.delete)) }
-                                        Button(onClick = {
-                                            viewModel.setCurrentNote(note)
-                                            navController.navigate(Navigation.EDIT_NOTE)
-                                        }) { Text(stringResource(R.string.edit)) }
-                                    }
                                 }
                             }
                         }
@@ -98,23 +101,21 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
                     {
                         noteList.value.notes.forEach { note ->
                             item {
-                                Column(modifier = Modifier.clickable {
+                                NoteCard(color = note.color,
+                                    title = note.title,
+                                    content = note.content,
+                                    date = note.date,
+                                    logo = note.logo,
+                                    edit = {
+                                        viewModel.setCurrentNote(note)
+                                        navController.navigate(Navigation.EDIT_NOTE)
+                                    },
+                                    delete = {
+                                        viewModel.deleteNote(note)
+                                    })
+                                {
                                     viewModel.setCurrentNote(note)
                                     navController.navigate(Navigation.PREVIEW_SCREEN)
-                                }) {
-                                    Text(note.title)
-                                    Text(note.content)
-                                    Text(text = SimpleDateFormat("dd/mm/yyyy 'at' hh:mm a",Locale.getDefault()).format(note.date).toString())
-
-                                    Row{
-                                        Button(onClick = {
-                                            viewModel.deleteNote(note)
-                                        }) { Text(stringResource(R.string.delete)) }
-                                        Button(onClick = {
-                                            viewModel.setCurrentNote(note)
-                                            navController.navigate(Navigation.EDIT_NOTE)
-                                        }) { Text(stringResource(R.string.edit)) }
-                                    }
                                 }
                             }
                         }

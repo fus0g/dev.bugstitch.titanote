@@ -39,6 +39,11 @@ fun EditComponent(modifier: Modifier = Modifier,
             .background(color = ZenColors.NoteColors.colorList[viewModel.noteColor.value], shape = RoundedCornerShape(15.dp))
             .defaultMinSize(minHeight = 400.dp)) {
             item {
+                LogoButton(icon = Logos[viewModel.noteLogo.value], static = true, size = 64.dp) {
+                    viewModel.setSelectNoteLogoState(!viewModel.selectNoteLogoState.value)
+                }
+            }
+            item {
                 TextField(value = viewModel.noteTitle.value,
                     onValueChange = {
                     viewModel.setNoteTitle(it)
@@ -58,11 +63,6 @@ fun EditComponent(modifier: Modifier = Modifier,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp
                     ),
-                    leadingIcon = {
-                        LogoButton(icon = Logos[viewModel.noteLogo.value], static = true) {
-                            viewModel.setSelectNoteLogoState(!viewModel.selectNoteLogoState.value)
-                        }
-                    }
                 )
             }
             item {

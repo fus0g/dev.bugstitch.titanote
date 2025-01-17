@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -15,22 +16,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.bugstitch.titanote.ui.theme.ZenColors
 
 @Composable
-fun LogoButton(modifier: Modifier = Modifier,icon:ImageVector,static:Boolean,onClick:()->Unit)
+fun LogoButton(modifier: Modifier = Modifier,size:Dp,icon:ImageVector,static:Boolean,onClick:()->Unit = {})
 {
     Box()
     {
         Box(modifier = modifier
-            .size(if(static)62.dp else 32.dp)
+            .size(size)
             .clip(CircleShape)
             .clickable { onClick() }, contentAlignment = Alignment.Center)
         {
 
             Icon(imageVector = icon, contentDescription = null, tint = if(static)ZenColors.Night else MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(if(static)54.dp else 32.dp))
+                modifier = Modifier.size(size-10.dp))
         }
     }
 }

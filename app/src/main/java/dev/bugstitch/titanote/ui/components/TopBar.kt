@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Cross
 import com.composables.icons.lucide.Delete
@@ -58,7 +59,8 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
     Column(modifier = Modifier
         .fillMaxWidth()
         .background(MaterialTheme.colorScheme.surface)){
-        TopAppBar(title = { Text(stringResource(R.string.app_name)) },
+        TopAppBar(title = { Text(stringResource(R.string.app_name),
+            fontWeight = FontWeight.Bold) },
             actions = {
                 when(viewModel.topBarState.value)
                 {
@@ -138,7 +140,8 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
                     LogoButton(
                         modifier = Modifier.size(48.dp),
                         icon = Logos[i],
-                        static = false) {
+                        static = false,
+                        size = 32.dp) {
                         viewModel.setNoteLogo(i)
                     }
                 }
