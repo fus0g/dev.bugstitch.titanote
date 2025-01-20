@@ -1,6 +1,5 @@
 package dev.bugstitch.titanote
 
-import androidx.compose.material3.TopAppBarState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf

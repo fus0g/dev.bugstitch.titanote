@@ -12,10 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.composables.icons.lucide.BadgePlus
-import com.composables.icons.lucide.Lucide
 import dev.bugstitch.titanote.R
-import dev.bugstitch.titanote.utils.Navigation
 
 @Composable
 fun AddButton(image:ImageVector,onclick: ()->Unit)

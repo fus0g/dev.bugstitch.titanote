@@ -2,38 +2,25 @@ package dev.bugstitch.titanote.ui.pages
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.composables.icons.lucide.BadgePlus
+import com.composables.icons.lucide.Beer
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
 import dev.bugstitch.titanote.R
@@ -43,8 +30,6 @@ import dev.bugstitch.titanote.ui.components.NoteCard
 import dev.bugstitch.titanote.ui.components.TopBar
 import dev.bugstitch.titanote.utils.Navigation
 import dev.bugstitch.titanote.utils.TopBarState
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 @Composable
 fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
@@ -66,7 +51,15 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
         Column(modifier = Modifier.padding(it)) {
 
             AnimatedVisibility(noteList.value.notes.isEmpty()) {
-                Text(stringResource(R.string.no_notes))
+                Column(modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center){
+                    Icon(Lucide.Beer, contentDescription = "", modifier = Modifier.size(90.dp)
+                        .padding(bottom = 20.dp))
+                    Text(stringResource(R.string.no_notes),
+                        fontSize = 20.sp,
+                    )
+                }
             }
             AnimatedVisibility(noteList.value.notes.isNotEmpty()) {
                 LazyVerticalGrid(columns = GridCells.FixedSize(175.dp), modifier = Modifier.padding(4.dp),
