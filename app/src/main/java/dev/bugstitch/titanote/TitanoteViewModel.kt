@@ -59,6 +59,10 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     val noteLogo: MutableState<Int> = _noteLogo
 
 
+    private val _sideMenuOpen = mutableStateOf(false)
+    val sideMenuOpen:MutableState<Boolean> = _sideMenuOpen
+
+
     private var currentNote:Note? = null
 
     fun setNoteContent(text:String){
@@ -133,6 +137,10 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
 
     fun checkEmpty():Boolean{
         return _noteContent.value == "" || _noteTitle.value == ""
+    }
+
+    fun openSideMenu(open:Boolean){
+        _sideMenuOpen.value = open
     }
 
     fun addNote()

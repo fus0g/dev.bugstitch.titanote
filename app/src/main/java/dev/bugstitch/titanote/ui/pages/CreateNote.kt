@@ -15,6 +15,7 @@ import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.ui.components.AddButton
 import dev.bugstitch.titanote.ui.components.EditComponent
+import dev.bugstitch.titanote.ui.components.SideBar
 import dev.bugstitch.titanote.ui.components.TopBar
 import dev.bugstitch.titanote.utils.Navigation
 import dev.bugstitch.titanote.utils.TopBarState
@@ -50,4 +51,5 @@ fun CreateNote(viewModel: TitanoteViewModel,navController: NavController)
         EditComponent(modifier = Modifier.padding(innerPadding), viewModel)
 
     }
+    SideBar(viewModel)
 }

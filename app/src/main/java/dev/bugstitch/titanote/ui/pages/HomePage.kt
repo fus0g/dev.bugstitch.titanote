@@ -27,6 +27,7 @@ import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.ui.components.AddButton
 import dev.bugstitch.titanote.ui.components.NoteCard
+import dev.bugstitch.titanote.ui.components.SideBar
 import dev.bugstitch.titanote.ui.components.TopBar
 import dev.bugstitch.titanote.utils.Navigation
 import dev.bugstitch.titanote.utils.TopBarState
@@ -117,6 +118,5 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
             }
         }
     }
-
-
+    SideBar(viewModel)
 }

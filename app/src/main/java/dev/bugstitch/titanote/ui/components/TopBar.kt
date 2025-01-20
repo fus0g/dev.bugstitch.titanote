@@ -84,7 +84,9 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
                 }
             },
             navigationIcon = {
-                IconButton(onClick = {}) { Icon(Lucide.Menu, contentDescription = "") }
+                IconButton(onClick = {
+                    viewModel.openSideMenu(true)
+                }) { Icon(Lucide.Menu, contentDescription = "") }
 
             })
        AnimatedVisibility(viewModel.searchState.value && viewModel.topBarState.value == TopBarState.Home, enter = expandVertically()) {

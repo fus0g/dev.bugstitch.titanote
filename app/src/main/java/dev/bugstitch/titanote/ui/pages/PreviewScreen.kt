@@ -28,6 +28,7 @@ import com.composables.icons.lucide.Pen
 import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.ui.components.AddButton
 import dev.bugstitch.titanote.ui.components.LogoButton
+import dev.bugstitch.titanote.ui.components.SideBar
 import dev.bugstitch.titanote.ui.components.TopBar
 import dev.bugstitch.titanote.ui.theme.ZenColors
 import dev.bugstitch.titanote.utils.Logos
@@ -110,4 +111,5 @@ fun PreviewScreen(viewModel: TitanoteViewModel,navController: NavController) {
         }
 
     }
+    SideBar(viewModel)
 }
