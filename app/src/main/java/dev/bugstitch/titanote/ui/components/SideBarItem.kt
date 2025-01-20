@@ -23,7 +23,7 @@ fun SideBarItem(logo:ImageVector,name:String,url:String)
 {
     val context = LocalContext.current
 
-    Row(modifier = Modifier.fillMaxWidth().height(50.dp)
+    Row(modifier = Modifier.fillMaxWidth()
         .statusBarsPadding()
         .padding(start = 8.dp)
         .clickable {

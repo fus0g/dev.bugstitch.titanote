@@ -44,13 +44,13 @@ fun SideBar(viewModel: TitanoteViewModel){
     ) {
 
             Column(Modifier
-                .fillMaxHeight()
+                .fillMaxSize()
                 .shadow(elevation = 2.dp)
-                .width(400.dp)
                 .background(MaterialTheme.colorScheme.surface)){
 
                 Row(modifier = Modifier.fillMaxWidth()
                     .statusBarsPadding()
+                    .padding(start = 8.dp)
                     .padding(8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically) {

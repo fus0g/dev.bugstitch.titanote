@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.navigation.compose)
 
+    implementation(libs.androidx.core.splashscreen)
+
 
     implementation(libs.icons.lucide)
 
