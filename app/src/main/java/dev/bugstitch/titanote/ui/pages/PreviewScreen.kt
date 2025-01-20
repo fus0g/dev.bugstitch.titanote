@@ -1,6 +1,7 @@
 package dev.bugstitch.titanote.ui.pages
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,7 +45,6 @@ fun PreviewScreen(viewModel: TitanoteViewModel,navController: NavController) {
 
     viewModel.setTopBarState(TopBarState.Preview)
 
-
     Scaffold(topBar = {
         TopBar(viewModel,
             onDelete = {
@@ -59,12 +59,14 @@ fun PreviewScreen(viewModel: TitanoteViewModel,navController: NavController) {
 
         LazyColumn(modifier = Modifier.padding(innerPadding)
             .fillMaxWidth()) {
+            val currentNote = viewModel.getCurrentNote()
             item {
+                AnimatedVisibility(currentNote != null)
+                {
                 Column(modifier = Modifier.padding(8.dp)
                     .background(ZenColors.NoteColors.colorList[viewModel.noteColor.value], shape = RoundedCornerShape(15.dp))
                     .defaultMinSize(minHeight = 400.dp),
                     verticalArrangement = Arrangement.SpaceBetween) {
-
 
                     Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp).fillMaxWidth()) {
                         LogoButton(icon = Logos[viewModel.noteLogo.value], static = true, size = 64.dp) { }
@@ -85,10 +87,17 @@ fun PreviewScreen(viewModel: TitanoteViewModel,navController: NavController) {
                         verticalAlignment = Alignment.Top,
                         horizontalArrangement = Arrangement.End){
 
-                        Text(text = SimpleDateFormat("dd/MM/yyyy 'at' hh:mm a", Locale.getDefault()).format(viewModel.getCurrentNote()!!.date).toString(),
-                            color = Color.DarkGray,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 12.sp)
+
+                        currentNote?.let { note ->
+                            Text(
+                                text = SimpleDateFormat("dd/MM/yyyy 'at' hh:mm a", Locale.getDefault())
+                                    .format(note.date).toString(),
+                                color = Color.DarkGray,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 12.sp
+                            )
+                        }
+                        }
 
                     }
                 }

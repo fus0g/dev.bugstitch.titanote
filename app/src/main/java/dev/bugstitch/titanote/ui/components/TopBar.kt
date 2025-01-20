@@ -72,10 +72,10 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
                     TopBarState.Preview -> {
 
                         IconButton(onClick = {if(viewModel.getCurrentNote() != null){
+                            onDelete()
                             viewModel.deleteNote(viewModel.getCurrentNote() as Note)
                             viewModel.emptyCurrent()
                             viewModel.nullCurrentNote()
-                            onDelete()
                         } }) {
                             Icon(Lucide.Trash, contentDescription = stringResource(R.string.delete))
                         }

@@ -79,7 +79,10 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
 
     fun nullCurrentNote()
     {
-        currentNote = null
+        viewModelScope.launch {
+            delay(500)
+            currentNote = null
+        }
     }
 
     fun getCurrentNote():Note?
