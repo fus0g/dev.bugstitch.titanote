@@ -32,6 +32,7 @@ import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.ui.theme.ZenColors
+import dev.bugstitch.titanote.utils.LogoString
 import dev.bugstitch.titanote.utils.Logos
 import dev.bugstitch.titanote.utils.TopBarState
 
@@ -56,15 +57,15 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
                         }) {
                             if(!viewModel.searchState.value)
                             {
-                                Icon(Lucide.Search, contentDescription = "")
+                                Icon(Lucide.Search, contentDescription = stringResource(R.string.search))
                             }else{
-                                Icon(Lucide.X, contentDescription = "")
+                                Icon(Lucide.X, contentDescription = stringResource(R.string.close))
                             }
                         }
                     }
                     TopBarState.Create -> {
                         ColorButton(
-                            color = ZenColors.NoteColors.colorList[viewModel.noteColor.value]
+                            color = ZenColors.NoteColors.colorList[viewModel.noteColor.value],
                         ) {
                                 viewModel.setSelectColorState(!viewModel.selectColorState.value)
                         }
@@ -86,7 +87,7 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
             navigationIcon = {
                 IconButton(onClick = {
                     viewModel.openSideMenu(true)
-                }) { Icon(Lucide.Menu, contentDescription = "") }
+                }) { Icon(Lucide.Menu, contentDescription = stringResource(R.string.sidebar)) }
 
             })
        AnimatedVisibility(viewModel.searchState.value && viewModel.topBarState.value == TopBarState.Home, enter = expandVertically()) {
@@ -128,6 +129,7 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
                     LogoButton(
                         modifier = Modifier.size(48.dp),
                         icon = Logos[i],
+                        contentDescription = LogoString[i],
                         static = false,
                         size = 32.dp) {
                         viewModel.setNoteLogo(i)

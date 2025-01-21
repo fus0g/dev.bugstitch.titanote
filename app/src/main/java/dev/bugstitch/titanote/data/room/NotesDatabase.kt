@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.utils.Constants
 
-@Database(entities = [Note::class], version = 1)
+@Database(entities = [Note::class], version = 1, exportSchema = false)
 abstract class NotesDatabase : RoomDatabase() {
 
     abstract fun notesDao(): NotesDao

@@ -11,12 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.ui.theme.ZenColors
 
 @Composable
-fun LogoButton(modifier: Modifier = Modifier,size:Dp,icon:ImageVector,static:Boolean,onClick:()->Unit = {})
+fun LogoButton(modifier: Modifier = Modifier,size:Dp,icon:ImageVector,contentDescription:Int,static:Boolean,onClick:()->Unit = {})
 {
     Box()
     {
@@ -26,7 +28,9 @@ fun LogoButton(modifier: Modifier = Modifier,size:Dp,icon:ImageVector,static:Boo
             .clickable { onClick() }, contentAlignment = Alignment.Center)
         {
 
-            Icon(imageVector = icon, contentDescription = null, tint = if(static)ZenColors.Night else MaterialTheme.colorScheme.primary,
+            Icon(imageVector = icon,
+                contentDescription = "${stringResource(contentDescription)} ${stringResource(R.string.logo)}",
+                tint = if(static)ZenColors.Night else MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(size-10.dp))
         }
     }

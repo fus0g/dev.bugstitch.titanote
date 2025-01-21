@@ -31,6 +31,7 @@ import dev.bugstitch.titanote.ui.components.LogoButton
 import dev.bugstitch.titanote.ui.components.SideBar
 import dev.bugstitch.titanote.ui.components.TopBar
 import dev.bugstitch.titanote.ui.theme.ZenColors
+import dev.bugstitch.titanote.utils.LogoString
 import dev.bugstitch.titanote.utils.Logos
 import dev.bugstitch.titanote.utils.Navigation
 import dev.bugstitch.titanote.utils.TopBarState
@@ -70,7 +71,7 @@ fun PreviewScreen(viewModel: TitanoteViewModel,navController: NavController) {
                     verticalArrangement = Arrangement.SpaceBetween) {
 
                     Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp).fillMaxWidth()) {
-                        LogoButton(icon = Logos[viewModel.noteLogo.value], static = true, size = 64.dp) { }
+                        LogoButton(icon = Logos[viewModel.noteLogo.value], contentDescription = LogoString[viewModel.noteLogo.value], static = true, size = 64.dp) { }
                         Text(text = viewModel.noteTitle.value,
                             modifier = Modifier.fillMaxWidth(),
                             fontWeight = FontWeight.Bold,

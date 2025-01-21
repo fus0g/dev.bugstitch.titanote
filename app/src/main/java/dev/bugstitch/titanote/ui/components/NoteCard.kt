@@ -28,6 +28,7 @@ import com.composables.icons.lucide.Pen
 import com.composables.icons.lucide.Trash
 import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.ui.theme.ZenColors
+import dev.bugstitch.titanote.utils.LogoString
 import dev.bugstitch.titanote.utils.Logos
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -57,7 +58,7 @@ fun NoteCard(color:Int,
                     fontWeight = FontWeight.SemiBold
                 )
                 Row(verticalAlignment = Alignment.CenterVertically){
-                    LogoButton(icon = Logos[logo],static = true, size = 35.dp)
+                    LogoButton(icon = Logos[logo], contentDescription = LogoString[logo],static = true, size = 35.dp)
                     Text(modifier = Modifier.padding(start = 8.dp),text = title, maxLines = 1,
                         fontWeight = FontWeight.Bold,
                         color = ZenColors.Night,

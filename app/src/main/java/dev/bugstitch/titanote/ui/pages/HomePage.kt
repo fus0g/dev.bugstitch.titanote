@@ -55,7 +55,7 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
                 Column(modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center){
-                    Icon(Lucide.Beer, contentDescription = "", modifier = Modifier.size(90.dp)
+                    Icon(Lucide.Beer, contentDescription = stringResource(R.string.beerJar), modifier = Modifier.size(90.dp)
                         .padding(bottom = 20.dp))
                     Text(stringResource(R.string.no_notes),
                         fontSize = 20.sp,

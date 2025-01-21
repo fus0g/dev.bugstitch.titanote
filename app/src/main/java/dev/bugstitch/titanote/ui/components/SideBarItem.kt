@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Icon
@@ -16,7 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.bugstitch.titanote.R
 
 @Composable
 fun SideBarItem(logo:ImageVector,name:String,url:String)
@@ -36,7 +37,7 @@ fun SideBarItem(logo:ImageVector,name:String,url:String)
         verticalAlignment = Alignment.CenterVertically) {
         Icon(
             logo,
-            contentDescription = name,
+            contentDescription = "$name ${stringResource(R.string.logo)}",
             tint = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(end = 12.dp)
         )

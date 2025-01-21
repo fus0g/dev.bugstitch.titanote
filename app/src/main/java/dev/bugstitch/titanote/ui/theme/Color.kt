@@ -39,5 +39,19 @@ object ZenColors {
             PastelOrange,
             PastelAqua
         )
+
+       /* val colorString = listOf(
+            R.string.PastelBlue,
+            R.string.PastelPink,
+            R.string.PastelGreen,
+            R.string.PastelYellow,
+            R.string.PastelLavender,
+            R.string.PastelPeach,
+            R.string.PastelMint,
+            R.string.PastelLilac,
+            R.string.PastelOrange,
+            R.string.PastelAqua
+        )
+        */
     }
 }
