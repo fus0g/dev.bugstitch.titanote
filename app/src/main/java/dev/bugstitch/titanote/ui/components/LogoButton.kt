@@ -25,7 +25,7 @@ fun LogoButton(modifier: Modifier = Modifier,size:Dp,icon:ImageVector,contentDes
         Box(modifier = modifier
             .size(size)
             .clip(CircleShape)
-            .clickable { onClick() }, contentAlignment = Alignment.Center)
+            .clickable(onClick = onClick, onClickLabel ="${stringResource(contentDescription)} ${stringResource(R.string.logo)}" ), contentAlignment = Alignment.Center)
         {
 
             Icon(imageVector = icon,

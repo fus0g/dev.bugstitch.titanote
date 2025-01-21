@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Titanote</string>
+    <string name="app_name">Titan Note</string>
     <string name="no_notes">No Notes Yet!</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
@@ -15,6 +15,7 @@
     <string name="beerJar">Empty Beer Jar</string>
     <string name="close">Close</string>
     <string name="sidebar">Sidebar</string>
+    <string name="link">Link</string>
 
     <!-- logos -->
     <string name="cat">Cat</string>

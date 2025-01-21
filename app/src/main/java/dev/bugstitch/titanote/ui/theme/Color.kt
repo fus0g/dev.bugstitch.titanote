@@ -1,6 +1,7 @@
 package dev.bugstitch.titanote.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import dev.bugstitch.titanote.R
 
 object ZenColors {
     // White Theme
@@ -39,19 +40,18 @@ object ZenColors {
             PastelOrange,
             PastelAqua
         )
-
-       /* val colorString = listOf(
-            R.string.PastelBlue,
-            R.string.PastelPink,
-            R.string.PastelGreen,
-            R.string.PastelYellow,
-            R.string.PastelLavender,
-            R.string.PastelPeach,
-            R.string.PastelMint,
-            R.string.PastelLilac,
-            R.string.PastelOrange,
-            R.string.PastelAqua
-        )
-        */
     }
 }
+
+val colorString = listOf(
+    R.string.PastelBlue,
+    R.string.PastelPink,
+    R.string.PastelGreen,
+    R.string.PastelYellow,
+    R.string.PastelLavender,
+    R.string.PastelPeach,
+    R.string.PastelMint,
+    R.string.PastelLilac,
+    R.string.PastelOrange,
+    R.string.PastelAqua
+)

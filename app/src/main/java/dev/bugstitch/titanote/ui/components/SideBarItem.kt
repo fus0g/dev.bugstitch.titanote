@@ -27,13 +27,14 @@ fun SideBarItem(logo:ImageVector,name:String,url:String)
     Row(modifier = Modifier.fillMaxWidth()
         .statusBarsPadding()
         .padding(start = 8.dp)
-        .clickable {
+        .clickable(onClick = {
 
             val urlIntent = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(url))
             context.startActivity(urlIntent)
         },
+            onClickLabel = "$name ${stringResource(R.string.link)}") ,
         verticalAlignment = Alignment.CenterVertically) {
         Icon(
             logo,

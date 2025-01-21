@@ -65,7 +65,7 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
                     }
                     TopBarState.Create -> {
                         ColorButton(
-                            color = ZenColors.NoteColors.colorList[viewModel.noteColor.value],
+                            color = viewModel.noteColor.value,
                         ) {
                                 viewModel.setSelectColorState(!viewModel.selectColorState.value)
                         }
@@ -112,7 +112,7 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
                 for(i in 0 until ZenColors.NoteColors.colorList.size){
                     ColorButton(
                         modifier = Modifier.size(48.dp),
-                        color = ZenColors.NoteColors.colorList[i]) {
+                        color = i) {
                         viewModel.setNoteColor(i)
                     }
                 }

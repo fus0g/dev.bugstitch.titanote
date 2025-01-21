@@ -11,20 +11,24 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.bugstitch.titanote.R
+import dev.bugstitch.titanote.ui.theme.ZenColors
+import dev.bugstitch.titanote.ui.theme.colorString
 
 @Composable
-fun ColorButton(modifier:Modifier = Modifier,color:Color,onClick:()->Unit){
+fun ColorButton(modifier:Modifier = Modifier,color:Int,onClick:()->Unit){
     Box(modifier = Modifier.padding(start = 4.dp, end = 4.dp))
     {
         Box(modifier = modifier
             .size(40.dp)
             .border(color = MaterialTheme.colorScheme.primary, width = 2.dp, shape = CircleShape)
             .padding(4.dp)
-            .background(color, shape = CircleShape)
+            .background(ZenColors.NoteColors.colorList[color], shape = CircleShape)
             .clip(CircleShape)
-            .clickable { onClick() })
+            .clickable(onClick = onClick,
+                onClickLabel = "${stringResource(colorString[color])} ${stringResource(R.string.color)}"))
     }
 
 }
