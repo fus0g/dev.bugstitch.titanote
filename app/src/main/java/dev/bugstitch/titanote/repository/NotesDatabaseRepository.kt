@@ -3,6 +3,7 @@ package dev.bugstitch.titanote.repository
 import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.data.room.NotesDao
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 interface NotesDatabaseRepository {
 
@@ -15,7 +16,7 @@ interface NotesDatabaseRepository {
     suspend fun updateNote(note: Note)
 }
 
-class NotesDatabaseRepositoryImpl(private val notesDao: NotesDao):NotesDatabaseRepository{
+class NotesDatabaseRepositoryImpl @Inject constructor(private val notesDao: NotesDao):NotesDatabaseRepository{
 
     override fun getAllNotes(): Flow<List<Note>> {
         return notesDao.getAllNotes()

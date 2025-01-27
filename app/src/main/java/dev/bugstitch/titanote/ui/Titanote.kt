@@ -16,7 +16,7 @@ import dev.bugstitch.titanote.ui.pages.PreviewScreen
 import dev.bugstitch.titanote.utils.Navigation
 
 @Composable
-fun Titanote(viewModel: TitanoteViewModel = viewModel(factory = TitanoteViewModel.factory))
+fun Titanote(viewModel: TitanoteViewModel = viewModel())
 {
     val navController = rememberNavController()
 

@@ -1,18 +1,7 @@
 package dev.bugstitch.titanote
 
 import android.app.Application
-import dev.bugstitch.titanote.container.NotesApplicationContainer
-import dev.bugstitch.titanote.container.NotesApplicationContainerImpl
+import dagger.hilt.android.HiltAndroidApp
 
-class TitanoteApplication : Application() {
-
-    lateinit var container: NotesApplicationContainer
-
-    override fun onCreate() {
-        super.onCreate()
-
-        container = NotesApplicationContainerImpl(context = this)
-
-    }
-
-}
+@HiltAndroidApp
+class TitanoteApplication : Application()

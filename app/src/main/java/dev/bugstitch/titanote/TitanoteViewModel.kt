@@ -4,11 +4,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.data.NoteState
 import dev.bugstitch.titanote.repository.NotesDatabaseRepository
@@ -21,8 +18,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Date
+import javax.inject.Inject
 
-class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseRepository) : ViewModel() {
+@HiltViewModel
+class TitanoteViewModel @Inject constructor(private val notesDatabaseRepository: NotesDatabaseRepository) : ViewModel() {
 
     val notes:StateFlow<NoteState> = notesDatabaseRepository.getAllNotes().map { NoteState(it) }
         .stateIn(scope = viewModelScope,
@@ -183,16 +182,4 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
             notesDatabaseRepository.deleteNote(note)
         }
     }
-
-
-    companion object{
-        val factory:ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val app = (this[APPLICATION_KEY] as TitanoteApplication)
-                val repository = app.container.notesDatabaseRepository
-                TitanoteViewModel(repository)
-            }
-        }
-    }
-
 }
