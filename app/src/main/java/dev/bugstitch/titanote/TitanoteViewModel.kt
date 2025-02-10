@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.data.NoteState
+import dev.bugstitch.titanote.data.datastore.PreferenceDatastore
 import dev.bugstitch.titanote.repository.NotesDatabaseRepository
 import dev.bugstitch.titanote.utils.TopBarState
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,8 @@ import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class TitanoteViewModel @Inject constructor(private val notesDatabaseRepository: NotesDatabaseRepository) : ViewModel() {
+class TitanoteViewModel @Inject constructor(private val notesDatabaseRepository: NotesDatabaseRepository,
+    private val preferenceDatastore: PreferenceDatastore) : ViewModel() {
 
     val notes:StateFlow<NoteState> = notesDatabaseRepository.getAllNotes().map { NoteState(it) }
         .stateIn(scope = viewModelScope,
@@ -61,8 +63,16 @@ class TitanoteViewModel @Inject constructor(private val notesDatabaseRepository:
     private val _sideMenuOpen = mutableStateOf(false)
     val sideMenuOpen:MutableState<Boolean> = _sideMenuOpen
 
+    val autosave:StateFlow<Boolean?> = preferenceDatastore.autosavePreferences.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
+
+
 
     private var currentNote:Note? = null
+
 
     fun setNoteContent(text:String){
         _noteContent.value = text
@@ -144,35 +154,30 @@ class TitanoteViewModel @Inject constructor(private val notesDatabaseRepository:
 
     fun addNote()
     {
-        if(_noteContent.value != "" && _noteTitle.value != "")
-        {
-            val note = Note(
+
+        val note = Note(
                 title = _noteTitle.value,
                 content = _noteContent.value,
                 date = Date(),
                 color = _noteColor.intValue,
                 logo = _noteLogo.intValue
             )
-            viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO){
                 notesDatabaseRepository.insertNote(note)
                 emptyCurrent()
-            }
         }
     }
 
     fun updateCurrentNote()
     {
-        if(currentNote != null && _noteContent.value != "" && _noteTitle.value != "")
-        {
-            val newNote = currentNote!!.copy(title = _noteTitle.value,
+        val newNote = currentNote!!.copy(title = _noteTitle.value,
                 content = _noteContent.value,
                 date = Date(),
                 color = _noteColor.intValue,
                 logo = _noteLogo.intValue)
 
-            viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO){
                 notesDatabaseRepository.updateNote(newNote)
-            }
         }
     }
 
@@ -180,6 +185,13 @@ class TitanoteViewModel @Inject constructor(private val notesDatabaseRepository:
     {
         viewModelScope.launch(Dispatchers.IO){
             notesDatabaseRepository.deleteNote(note)
+        }
+    }
+
+    fun updateAutoSavePreference()
+    {
+        viewModelScope.launch(Dispatchers.IO) {
+            preferenceDatastore.updateAutosaveKey(!autosave.value!!)
         }
     }
 }

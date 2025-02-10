@@ -73,6 +73,8 @@ dependencies {
 
     implementation(libs.icons.lucide)
 
+    implementation(libs.androidx.datastore.preferences)
+
 }
 kapt {
     correctErrorTypes = true

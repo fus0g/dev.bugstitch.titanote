@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.bugstitch.titanote.data.datastore.PreferenceDatastore
 import dev.bugstitch.titanote.data.room.NotesDao
 import dev.bugstitch.titanote.data.room.NotesDatabase
 import javax.inject.Singleton
@@ -17,6 +18,12 @@ object AppModule {
     @Singleton
     fun providesNotesDao(app:Application):NotesDao{
         return NotesDatabase.getDatabase(app).notesDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providesPreferenceDatastore(app: Application):PreferenceDatastore{
+        return PreferenceDatastore(app)
     }
 
 }

@@ -6,8 +6,13 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Save
@@ -26,13 +31,46 @@ fun EditScreen(viewModel: TitanoteViewModel,navController: NavController) {
 
     val context = LocalContext.current
 
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val autosave = viewModel.autosave.collectAsState()
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_PAUSE -> {
+
+                }
+                Lifecycle.Event.ON_DESTROY -> {
+                    if(autosave.value!!)
+                    {
+                        viewModel.updateCurrentNote()
+                    }
+                }
+                else -> {}
+            }
+        }
+
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
     viewModel.setTopBarState(TopBarState.Create)
     BackHandler {
-       // Log.d("BackHandler",navController.previousBackStackEntry?.destination?.route.toString() )
         if(navController.previousBackStackEntry?.destination?.route == Navigation.PREVIEW_SCREEN)
-        {
+        {   if(autosave.value!!)
+            {
+                viewModel.updateCurrentNote()
+            }
             navController.navigate(Navigation.PREVIEW_SCREEN)
         }else{
+            if(autosave.value!!)
+            {
+                viewModel.updateCurrentNote()
+            }
             navController.navigate(Navigation.HOME)
             viewModel.emptyCurrent()
         }
