@@ -28,6 +28,7 @@ import com.composables.icons.lucide.Github
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Notebook
 import com.composables.icons.lucide.Shield
+import com.composables.icons.lucide.Store
 import com.composables.icons.lucide.X
 import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
@@ -64,6 +65,7 @@ fun SideBar(viewModel: TitanoteViewModel){
                 Column(modifier = Modifier.fillMaxSize().navigationBarsPadding().padding(8.dp),
                     verticalArrangement = Arrangement.SpaceBetween) {
                     Column {
+                        SideBarItem(Lucide.Store,stringResource(R.string.store),"https://play.google.com/store/apps/details?id=dev.bugstitch.titanote")
                         SideBarItem(Lucide.Github, stringResource(R.string.github),"https://github.com/fus0g/dev.bugstitch.titanote")
                         SideBarItem(Lucide.Shield,stringResource(R.string.privacyPolicy),"https://github.com/fus0g/dev.bugstitch.titanote/blob/master/PrivacyPolicy.MD")
                         SideBarItem(Lucide.Notebook,stringResource(R.string.tos),"https://github.com/fus0g/dev.bugstitch.titanote/blob/master/ToC.MD")
