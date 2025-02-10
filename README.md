@@ -1,8 +1,8 @@
-# Titanote
+# Titan Note
 
-<img src="https://raw.githubusercontent.com/fus0g/dev.bugstitch.titanote/refs/heads/master/icon-512.png" width="100" alt="Titanote Logo">
+<img src="https://raw.githubusercontent.com/fus0g/dev.bugstitch.titanote/refs/heads/master/icon-512.png" width="100" alt="Titan Note Logo">
 
-Titanote is a minimalist, offline-first note-taking app focused on simplicity and privacy. Built with Android best practices and Material Design 3, Titanote provides a clean, distraction-free environment for your thoughts.
+Titan Note is a minimalist, offline-first note-taking app focused on simplicity and privacy. Built with Android best practices and Material Design 3, Titan Note provides a clean, distraction-free environment for your thoughts.
 
 ## Features
 
@@ -15,7 +15,7 @@ Titanote is a minimalist, offline-first note-taking app focused on simplicity an
 
 ## Privacy
 
-Titanote respects your privacy:
+Titan Note respects your privacy:
 - No data collection
 - No analytics
 - No internet connection required
@@ -23,7 +23,7 @@ Titanote respects your privacy:
 
 ## Installation
 
-Download the latest APK from the [Releases](https://github.com/fus0g/dev.bugstitch.titanote/releases) page.
+Download the latest APK from the [Releases](https://github.com/fus0g/dev.bugstitch.Titan Note/releases) page.
 
 ## Built With
 
@@ -49,7 +49,7 @@ Contributions are welcome! Feel free to:
 ---
 <div align="center">
 
-⭐ If you find Titanote helpful, don't forget to star the repository!
+⭐ If you find Titan Note helpful, don't forget to star the repository!
 
 <a href="https://buymeacoffee.com/prabhatproxy"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=prabhatproxy&button_colour=FFDD00&font_colour=000000&font_family=Inter&outline_colour=000000&coffee_colour=ffffff" /></a>
 
