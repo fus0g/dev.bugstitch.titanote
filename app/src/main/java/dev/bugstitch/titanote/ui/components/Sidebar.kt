@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,6 +49,7 @@ fun SideBar(viewModel: TitanoteViewModel){
             Column(Modifier
                 .fillMaxSize()
                 .shadow(elevation = 2.dp)
+                .clickable {  }
                 .background(MaterialTheme.colorScheme.surface)){
 
                 Row(modifier = Modifier.fillMaxWidth()
