@@ -35,12 +35,22 @@ fun CreateNote(viewModel: TitanoteViewModel,navController: NavController)
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
                 Lifecycle.Event.ON_PAUSE -> {
-
+                    if(autosave.value!!)
+                    {
+                        if(!viewModel.checkEmpty())
+                        {
+                            viewModel.addNote()
+                            navController.navigate(Navigation.HOME)
+                        }
+                    }
                 }
                 Lifecycle.Event.ON_DESTROY -> {
                     if(autosave.value!!)
                     {
-                        viewModel.addNote()
+                        if(!viewModel.checkEmpty())
+                        {
+                            viewModel.addNote()
+                        }
                     }
                 }
                 else -> {}
@@ -55,12 +65,22 @@ fun CreateNote(viewModel: TitanoteViewModel,navController: NavController)
     }
 
     BackHandler {
-        if(autosave.value!!)
+        if(viewModel.sideMenuOpen.value)
         {
-            viewModel.addNote()
+            viewModel.openSideMenu(false)
         }
-        navController.navigate(Navigation.HOME)
-        viewModel.emptyCurrent()
+        else{
+            if(autosave.value!!)
+            {
+                if(!viewModel.checkEmpty())
+                {
+                    viewModel.addNote()
+                }
+            }
+            navController.navigate(Navigation.HOME)
+            viewModel.emptyCurrent()
+        }
+
     }
     Scaffold(topBar = {
         TopBar(viewModel)

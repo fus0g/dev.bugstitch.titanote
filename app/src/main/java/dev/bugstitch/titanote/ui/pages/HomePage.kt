@@ -35,7 +35,12 @@ import dev.bugstitch.titanote.utils.TopBarState
 @Composable
 fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
 
-    BackHandler {}
+    BackHandler {
+        if(viewModel.sideMenuOpen.value)
+        {
+            viewModel.openSideMenu(false)
+        }
+    }
 
     viewModel.setTopBarState(TopBarState.Home)
 

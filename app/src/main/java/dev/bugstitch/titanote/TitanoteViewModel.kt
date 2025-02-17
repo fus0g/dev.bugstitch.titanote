@@ -145,7 +145,7 @@ class TitanoteViewModel @Inject constructor(private val notesDatabaseRepository:
     }
 
     fun checkEmpty():Boolean{
-        return _noteContent.value == "" || _noteTitle.value == ""
+        return _noteContent.value == "" && _noteTitle.value == ""
     }
 
     fun openSideMenu(open:Boolean){

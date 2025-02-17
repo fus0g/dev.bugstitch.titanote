@@ -39,7 +39,11 @@ fun EditScreen(viewModel: TitanoteViewModel,navController: NavController) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
                 Lifecycle.Event.ON_PAUSE -> {
-
+                    if(autosave.value!!)
+                    {
+                        viewModel.updateCurrentNote()
+                        navController.navigate(Navigation.HOME)
+                    }
                 }
                 Lifecycle.Event.ON_DESTROY -> {
                     if(autosave.value!!)
@@ -60,19 +64,26 @@ fun EditScreen(viewModel: TitanoteViewModel,navController: NavController) {
 
     viewModel.setTopBarState(TopBarState.Create)
     BackHandler {
-        if(navController.previousBackStackEntry?.destination?.route == Navigation.PREVIEW_SCREEN)
-        {   if(autosave.value!!)
+        if(viewModel.sideMenuOpen.value)
+        {
+            viewModel.openSideMenu(false)
+        }
+        else{
+
+            if(navController.previousBackStackEntry?.destination?.route == Navigation.PREVIEW_SCREEN)
+            {   if(autosave.value!!)
             {
                 viewModel.updateCurrentNote()
             }
-            navController.navigate(Navigation.PREVIEW_SCREEN)
-        }else{
-            if(autosave.value!!)
-            {
-                viewModel.updateCurrentNote()
+                navController.navigate(Navigation.PREVIEW_SCREEN)
+            }else{
+                if(autosave.value!!)
+                {
+                    viewModel.updateCurrentNote()
+                }
+                navController.navigate(Navigation.HOME)
+                viewModel.emptyCurrent()
             }
-            navController.navigate(Navigation.HOME)
-            viewModel.emptyCurrent()
         }
     }
     Scaffold(topBar = {

@@ -41,8 +41,14 @@ import java.util.Locale
 @Composable
 fun PreviewScreen(viewModel: TitanoteViewModel,navController: NavController) {
     BackHandler {
-        navController.navigate(Navigation.HOME)
-        viewModel.emptyCurrent()
+        if(viewModel.sideMenuOpen.value)
+        {
+            viewModel.openSideMenu(false)
+        }
+        else{
+            navController.navigate(Navigation.HOME)
+            viewModel.emptyCurrent()
+        }
     }
 
     viewModel.setTopBarState(TopBarState.Preview)
