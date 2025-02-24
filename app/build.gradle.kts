@@ -15,8 +15,8 @@ android {
         applicationId = "dev.bugstitch.titanote"
         minSdk = 21
         targetSdk = 35
-        versionCode = 10
-        versionName = "1.1-beta3"
+        versionCode = 12
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,6 +28,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            ndk {
+                debugSymbolLevel = "FULL"
+            }
         }
     }
     compileOptions {

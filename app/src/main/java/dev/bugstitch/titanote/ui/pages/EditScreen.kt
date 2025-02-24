@@ -76,6 +76,7 @@ fun EditScreen(viewModel: TitanoteViewModel,navController: NavController) {
                 viewModel.updateCurrentNote()
             }
                 navController.navigate(Navigation.PREVIEW_SCREEN)
+                viewModel.emptyCurrent()
             }else{
                 if(autosave.value!!)
                 {
