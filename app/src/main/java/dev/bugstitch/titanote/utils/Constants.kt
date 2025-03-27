@@ -6,4 +6,6 @@ object Constants {
 
     const val DATASTORE_PREFERENCE = "PREFERENCES"
     const val PREFERENCE_AUTOSAVE = "AUTOSAVE"
+    const val PREFERENCE_ENCRYPTED = "ENCRYPTED"
+    const val PREFERENCE_SALT = "SALT"
 }

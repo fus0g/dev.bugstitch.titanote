@@ -69,9 +69,21 @@ class TitanoteViewModel @Inject constructor(private val notesDatabaseRepository:
         initialValue = false
     )
 
+    private val _encryptionKeyExists:MutableState<Boolean?> = mutableStateOf(null)
+    val encryptionKeyExists:MutableState<Boolean?> = _encryptionKeyExists
 
+    private val _encrypted:MutableState<Boolean?> = mutableStateOf(null)
+    val encrypted:MutableState<Boolean?> = _encrypted
+
+    val _salt:MutableState<String?> = mutableStateOf(null)
+    val salt:MutableState<String?> = _salt
 
     private var currentNote:Note? = null
+
+
+    init {
+        checkEncryptionKeyStoreExists()
+    }
 
 
     fun setNoteContent(text:String){
@@ -194,4 +206,18 @@ class TitanoteViewModel @Inject constructor(private val notesDatabaseRepository:
             preferenceDatastore.updateAutosaveKey(!autosave.value!!)
         }
     }
+
+    private fun checkEncryptionKeyStoreExists(){
+        viewModelScope.launch {
+            _encryptionKeyExists.value = preferenceDatastore.encryptionExists()
+            if(_encryptionKeyExists.value == true)
+            {
+                if(preferenceDatastore.getEncryptionState() == true)
+                {
+                    _salt.value = preferenceDatastore.getSalt()
+                }
+            }
+        }
+    }
+
 }
