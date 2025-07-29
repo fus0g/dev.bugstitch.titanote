@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -51,24 +52,26 @@ fun NoteCard(color:Int,
             .padding(8.dp)
             .clickable { onClick() },
             verticalArrangement = Arrangement.SpaceBetween) {
-            Column {
-                Text(text = SimpleDateFormat("dd/MM/yyyy 'at' hh:mm a", Locale.getDefault()).format(date).toString(),
-                    fontSize = 10.sp,
-                    color = Color.DarkGray,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Row(verticalAlignment = Alignment.CenterVertically){
-                    LogoButton(icon = Logos[logo], contentDescription = LogoString[logo],static = true, size = 35.dp)
-                    Text(modifier = Modifier.padding(start = 8.dp),text = title, maxLines = 1,
-                        fontWeight = FontWeight.Bold,
-                        color = ZenColors.Night,
-                        fontSize = 16.sp
+            SelectionContainer {
+                Column {
+                    Text(text = SimpleDateFormat("dd/MM/yyyy 'at' hh:mm a", Locale.getDefault()).format(date).toString(),
+                        fontSize = 10.sp,
+                        color = Color.DarkGray,
+                        fontWeight = FontWeight.SemiBold
                     )
+                    Row(verticalAlignment = Alignment.CenterVertically){
+                        LogoButton(icon = Logos[logo], contentDescription = LogoString[logo],static = true, size = 35.dp)
+                        Text(modifier = Modifier.padding(start = 8.dp),text = title, maxLines = 1,
+                            fontWeight = FontWeight.Bold,
+                            color = ZenColors.Night,
+                            fontSize = 16.sp
+                        )
+                    }
+                    Text(text = content, maxLines = 5,
+                        color = ZenColors.Night,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(top = 8.dp))
                 }
-                Text(text = content, maxLines = 5,
-                    color = ZenColors.Night,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(top = 8.dp))
             }
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween) {

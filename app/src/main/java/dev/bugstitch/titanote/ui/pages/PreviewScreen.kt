@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -71,42 +72,45 @@ fun PreviewScreen(viewModel: TitanoteViewModel,navController: NavController) {
             item {
                 AnimatedVisibility(currentNote != null)
                 {
-                Column(modifier = Modifier.padding(8.dp)
-                    .background(ZenColors.NoteColors.colorList[viewModel.noteColor.value], shape = RoundedCornerShape(15.dp))
-                    .defaultMinSize(minHeight = 400.dp),
-                    verticalArrangement = Arrangement.SpaceBetween) {
+                    Column(modifier = Modifier.padding(8.dp)
+                        .background(ZenColors.NoteColors.colorList[viewModel.noteColor.value], shape = RoundedCornerShape(15.dp))
+                        .defaultMinSize(minHeight = 400.dp),
+                            verticalArrangement = Arrangement.SpaceBetween) {
 
-                    Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp).fillMaxWidth()) {
-                        LogoButton(icon = Logos[viewModel.noteLogo.value], contentDescription = LogoString[viewModel.noteLogo.value], static = true, size = 64.dp) { }
-                        Text(text = viewModel.noteTitle.value,
-                            modifier = Modifier.fillMaxWidth(),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 28.sp,
-                            color = ZenColors.Night
-                        )
-                        Text(text = viewModel.noteContent.value,
-                            modifier = Modifier.fillMaxWidth(),
-                            color = ZenColors.Night,
-                            fontSize = 18.sp)
-                    }
-
-                    Row(modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 12.dp)
-                        .fillMaxWidth(),
-                        verticalAlignment = Alignment.Top,
-                        horizontalArrangement = Arrangement.End){
-
-
-                        currentNote?.let { note ->
-                            Text(
-                                text = SimpleDateFormat("dd/MM/yyyy 'at' hh:mm a", Locale.getDefault())
-                                    .format(note.date).toString(),
-                                color = Color.DarkGray,
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 12.sp
-                            )
-                        }
+                        SelectionContainer {
+                            Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp).fillMaxWidth()) {
+                                LogoButton(icon = Logos[viewModel.noteLogo.value], contentDescription = LogoString[viewModel.noteLogo.value], static = true, size = 64.dp) { }
+                                Text(text = viewModel.noteTitle.value,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 28.sp,
+                                    color = ZenColors.Night
+                                )
+                                Text(text = viewModel.noteContent.value,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    color = ZenColors.Night,
+                                    fontSize = 18.sp)
+                            }
                         }
 
+                        Row(modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 12.dp)
+                            .fillMaxWidth(),
+                            verticalAlignment = Alignment.Top,
+                            horizontalArrangement = Arrangement.End){
+
+
+                            currentNote?.let { note ->
+                                SelectionContainer {
+                                    Text(
+                                        text = SimpleDateFormat("dd/MM/yyyy 'at' hh:mm a", Locale.getDefault())
+                                            .format(note.date).toString(),
+                                        color = Color.DarkGray,
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 12.sp
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
