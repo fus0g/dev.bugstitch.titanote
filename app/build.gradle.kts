@@ -5,6 +5,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("androidx.room")
 }
 
 android {
@@ -81,4 +82,7 @@ dependencies {
 }
 kapt {
     correctErrorTypes = true
+}
+room {
+    schemaDirectory("$projectDir/schemas")
 }
