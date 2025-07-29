@@ -34,7 +34,7 @@ fun Titanote(viewModel: TitanoteViewModel = viewModel())
 
     if(startDestination != null)
     {
-        NavHost(navController = navController, startDestination = startDestination,
+        NavHost(navController = navController, startDestination = Navigation.HOME,
             modifier = Modifier.background(MaterialTheme.colorScheme.background)){
             composable(route = Navigation.CREATE_NOTE){
                 CreateNote(viewModel,navController)
