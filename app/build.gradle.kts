@@ -16,8 +16,8 @@ android {
         applicationId = "dev.bugstitch.titanote"
         minSdk = 21
         targetSdk = 35
-        versionCode = 12
-        versionName = "1.0"
+        versionCode = 13
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
