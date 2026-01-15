@@ -16,9 +16,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         enableEdgeToEdge()
         setContent {
-            TitanoteTheme {
-                Titanote()
-            }
+            App()
         }
     }
 }

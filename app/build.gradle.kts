@@ -1,20 +1,65 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
-    id("kotlin-kapt")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
-    id("androidx.room")
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.composeHotReload)
+}
+kotlin {
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
+
+    jvm()
+
+    sourceSets {
+        androidMain.dependencies {
+            implementation(compose.preview)
+            implementation(libs.androidx.activity.compose)
+
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.room.ktx)
+
+            implementation(libs.androidx.core.splashscreen)
+
+            implementation(libs.hilt.android)
+
+            implementation(libs.icons.lucide)
+
+            implementation(libs.androidx.datastore.preferences)
+        }
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.preview)
+            implementation(libs.androidx.lifecycle.viewmodelCompose)
+            implementation(libs.androidx.lifecycle.runtimeCompose)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutinesSwing)
+        }
+    }
 }
 
 android {
     namespace = "dev.bugstitch.titanote"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "dev.bugstitch.titanote"
-        minSdk = 21
+        minSdk = 25
         targetSdk = 35
         versionCode = 13
         versionName = "1.1"
@@ -38,51 +83,36 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.navigation.compose)
-
-    implementation(libs.androidx.core.splashscreen)
-
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
-
-    implementation(libs.icons.lucide)
-
-    implementation(libs.androidx.datastore.preferences)
-
+    debugImplementation(compose.uiTooling)
 }
-kapt {
-    correctErrorTypes = true
-}
-room {
+
+/* room {
     schemaDirectory("$projectDir/schemas")
+} */
+
+compose.desktop {
+    application {
+        mainClass = "dev.bugstitch.titanote.MainKt"
+
+        nativeDistributions {
+            targetFormats(
+                TargetFormat.AppImage,
+                TargetFormat.Rpm,
+                TargetFormat.Deb,
+                TargetFormat.Pkg,
+                TargetFormat.Dmg,
+                TargetFormat.Msi,
+                TargetFormat.Exe
+            )
+            packageName = "dev.bugstitch.titanote"
+            packageVersion = "1.0.0"
+        }
+    }
 }
