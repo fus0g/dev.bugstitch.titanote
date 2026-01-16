@@ -1,7 +1,16 @@
 package dev.bugstitch.titanote
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import dev.bugstitch.titanote.di.initKoin
+import org.koin.android.ext.koin.androidContext
 
-@HiltAndroidApp
-class TitanoteApplication : Application()
+class TitanoteApplication: Application(){
+
+    override fun onCreate() {
+        super.onCreate()
+        initKoin {
+            androidContext(this@TitanoteApplication)
+        }
+    }
+
+}
