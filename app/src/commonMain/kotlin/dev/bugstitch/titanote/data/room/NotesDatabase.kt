@@ -1,5 +1,6 @@
 package dev.bugstitch.titanote.data.room
 
+import androidx.room.AutoMigration
 import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -9,7 +10,8 @@ import dev.bugstitch.titanote.data.Note
 @Database(
     entities = [Note::class],
     version = 2,
-    exportSchema = true
+    exportSchema = true,
+    autoMigrations = [AutoMigration(from = 1, to = 2)]
 )
 @ConstructedBy(NotesDatabaseConstructor::class)
 abstract class NotesDatabase : RoomDatabase() {

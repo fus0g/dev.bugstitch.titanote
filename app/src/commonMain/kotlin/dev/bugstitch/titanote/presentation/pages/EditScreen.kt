@@ -93,7 +93,7 @@ fun EditScreen(viewModel: TitanoteViewModel, navController: NavController) {
                 AddButton(Lucide.Save) {
                     if(!viewModel.checkEmpty())
                     {
-                       // viewModel.updateCurrentNote()
+                        viewModel.updateCurrentNote()
                         if(navController.previousBackStackEntry?.destination?.route == Navigation.PREVIEW_SCREEN)
                         {
                             navController.navigate(Navigation.PREVIEW_SCREEN)
