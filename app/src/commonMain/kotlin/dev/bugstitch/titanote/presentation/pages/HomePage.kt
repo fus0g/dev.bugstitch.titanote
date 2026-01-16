@@ -1,6 +1,5 @@
 package dev.bugstitch.titanote.presentation.pages
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,28 +17,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.composables.icons.lucide.Beer
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
-import dev.bugstitch.titanote.R
-import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.presentation.components.AddButton
 import dev.bugstitch.titanote.presentation.components.NoteCard
+import dev.bugstitch.titanote.presentation.components.SideBar
 import dev.bugstitch.titanote.presentation.components.TopBar
 import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
-import dev.bugstitch.titanote.ui.components.AddButton
-import dev.bugstitch.titanote.ui.components.NoteCard
-import dev.bugstitch.titanote.ui.components.SideBar
-import dev.bugstitch.titanote.ui.components.TopBar
 import dev.bugstitch.titanote.utils.Navigation
 import dev.bugstitch.titanote.utils.TopBarState
 import org.jetbrains.compose.resources.stringResource
 import titanote.app.generated.resources.Res
 import titanote.app.generated.resources.beerJar
+import titanote.app.generated.resources.no_notes
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -72,7 +66,7 @@ fun HomePage(viewModel: TitanoteViewModel, navController: NavController) {
                     verticalArrangement = Arrangement.Center){
                     Icon(Lucide.Beer, contentDescription = stringResource(Res.string.beerJar), modifier = Modifier.size(90.dp)
                         .padding(bottom = 20.dp))
-                    Text(stringResource(R.string.no_notes),
+                    Text(stringResource(Res.string.no_notes),
                         fontSize = 20.sp,
                     )
                 }
@@ -87,7 +81,8 @@ fun HomePage(viewModel: TitanoteViewModel, navController: NavController) {
                         }.forEach {
                             note->
                             item {
-                                NoteCard(color = note.color,
+                                NoteCard(
+                                    color = note.color,
                                     title = note.title,
                                     content = note.content,
                                     date = note.date,
@@ -110,7 +105,8 @@ fun HomePage(viewModel: TitanoteViewModel, navController: NavController) {
                     {
                         noteList.value.notes.forEach { note ->
                             item {
-                                NoteCard(color = note.color,
+                                NoteCard(
+                                    color = note.color,
                                     title = note.title,
                                     content = note.content,
                                     date = note.date,

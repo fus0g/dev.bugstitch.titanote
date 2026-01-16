@@ -7,6 +7,8 @@ iconsLucide = "1.1.0"
 kotlin = "2.3.0"
 roomRuntime = "2.8.4"
 koin = "4.1.1"
+room = "2.8.4"
+sqlite = "2.6.2"
 
 #kmp
 composeHotReload = "1.0.0"
@@ -15,15 +17,15 @@ androidx-activity = "1.12.2"
 androidx-lifecycle = "2.9.6"
 kotlinx-coroutines = "1.10.2"
 navigationCompose = "2.9.1"
+dateTime = "0.7.1"
 
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 icons-lucide = { module = "com.composables:icons-lucide", version.ref = "iconsLucide" }
-
+kotlinx-datetime = {module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "dateTime" }
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
@@ -42,8 +44,15 @@ koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", ver
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 compose-backhandler = {module = "org.jetbrains.compose.ui:ui-backhandler",version.ref="composeMultiplatform"}
 
+#Room
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin" }
+androidx-room = { id = "androidx.room", version.ref = "room" }
 
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }

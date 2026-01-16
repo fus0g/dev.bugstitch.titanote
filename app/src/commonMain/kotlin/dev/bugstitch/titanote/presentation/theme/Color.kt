@@ -1,7 +1,17 @@
 package dev.bugstitch.titanote.presentation.theme
 
 import androidx.compose.ui.graphics.Color
-import dev.bugstitch.titanote.R
+import titanote.app.generated.resources.PastelAqua
+import titanote.app.generated.resources.PastelBlue
+import titanote.app.generated.resources.PastelGreen
+import titanote.app.generated.resources.PastelLavender
+import titanote.app.generated.resources.PastelLilac
+import titanote.app.generated.resources.PastelMint
+import titanote.app.generated.resources.PastelOrange
+import titanote.app.generated.resources.PastelPeach
+import titanote.app.generated.resources.PastelPink
+import titanote.app.generated.resources.PastelYellow
+import titanote.app.generated.resources.Res
 
 object ZenColors {
     // White Theme
@@ -44,14 +54,14 @@ object ZenColors {
 }
 
 val colorString = listOf(
-    R.string.PastelBlue,
-    R.string.PastelPink,
-    R.string.PastelGreen,
-    R.string.PastelYellow,
-    R.string.PastelLavender,
-    R.string.PastelPeach,
-    R.string.PastelMint,
-    R.string.PastelLilac,
-    R.string.PastelOrange,
-    R.string.PastelAqua
+    Res.string.PastelBlue,
+    Res.string.PastelPink,
+    Res.string.PastelGreen,
+    Res.string.PastelYellow,
+    Res.string.PastelLavender,
+    Res.string.PastelPeach,
+    Res.string.PastelMint,
+    Res.string.PastelLilac,
+    Res.string.PastelOrange,
+    Res.string.PastelAqua
 )

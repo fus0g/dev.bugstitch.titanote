@@ -14,9 +14,9 @@ import kotlinx.coroutines.flow.Flow
 interface NotesDao {
 
     @Query("SELECT * FROM ${Constants.TABLE_NAME}")
-    fun getAllNotes():Flow<List<Note>>
+    fun getAllNotes(): Flow<List<Note>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
     suspend fun insertNote(note: Note)
 
     @Delete

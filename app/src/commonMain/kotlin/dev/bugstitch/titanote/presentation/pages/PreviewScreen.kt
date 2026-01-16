@@ -1,6 +1,5 @@
 package dev.bugstitch.titanote.presentation.pages
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,18 +27,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Pen
-import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.presentation.components.AddButton
 import dev.bugstitch.titanote.presentation.components.LogoButton
 import dev.bugstitch.titanote.presentation.components.SideBar
 import dev.bugstitch.titanote.presentation.components.TopBar
 import dev.bugstitch.titanote.presentation.theme.ZenColors
 import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
-import dev.bugstitch.titanote.ui.components.AddButton
-import dev.bugstitch.titanote.ui.components.LogoButton
-import dev.bugstitch.titanote.ui.components.SideBar
-import dev.bugstitch.titanote.ui.components.TopBar
-import dev.bugstitch.titanote.ui.theme.ZenColors
 import dev.bugstitch.titanote.utils.LogoString
 import dev.bugstitch.titanote.utils.Logos
 import dev.bugstitch.titanote.utils.Navigation

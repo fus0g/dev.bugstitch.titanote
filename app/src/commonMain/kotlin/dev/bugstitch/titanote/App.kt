@@ -25,35 +25,25 @@ fun App(){
 
         val viewModel = koinViewModel<TitanoteViewModel>()
 
-        val encryptionKeyExists = viewModel.encryptionKeyExists.value
-
-        val startDestination = when (encryptionKeyExists) {
-            true -> Navigation.HOME
-            false -> Navigation.START_PAGE
-            else -> null
-        }
-
-        if(startDestination != null)
-        {
-            NavHost(navController = navController, startDestination = Navigation.HOME,
-                modifier = Modifier.background(MaterialTheme.colorScheme.background)){
-                composable(route = Navigation.CREATE_NOTE){
-                    CreateNote(viewModel,navController)
-                }
-                composable(route = Navigation.HOME) {
-                    HomePage(viewModel,navController)
-                }
-                composable(route = Navigation.EDIT_NOTE){
-                    EditScreen(viewModel,navController)
-                }
-                composable(route = Navigation.PREVIEW_SCREEN)
-                {
-                    PreviewScreen(viewModel,navController)
-                }
-                composable(Navigation.START_PAGE) {
-                    StartPage(viewModel)
-                }
+        NavHost(navController = navController, startDestination = Navigation.HOME,
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)){
+            composable(route = Navigation.CREATE_NOTE){
+                CreateNote(viewModel,navController)
+            }
+            composable(route = Navigation.HOME) {
+                HomePage(viewModel,navController)
+            }
+            composable(route = Navigation.EDIT_NOTE){
+                EditScreen(viewModel,navController)
+            }
+            composable(route = Navigation.PREVIEW_SCREEN)
+            {
+                PreviewScreen(viewModel,navController)
+            }
+            composable(Navigation.START_PAGE) {
+                StartPage(viewModel)
             }
         }
+
     }
 }

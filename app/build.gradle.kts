@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidx.room)
 }
 kotlin {
     androidTarget {
@@ -22,12 +24,8 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
 
-            implementation(libs.androidx.room.runtime)
-            implementation(libs.androidx.room.ktx)
-
             implementation(libs.androidx.core.splashscreen)
 
-            implementation(libs.hilt.android)
 
             implementation(libs.androidx.datastore.preferences)
 
@@ -56,6 +54,12 @@ kotlin {
             implementation(libs.compose.backhandler)
 
             implementation(libs.icons.lucide)
+
+            //room
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
+
+            implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -105,11 +109,14 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspJvm", libs.androidx.room.compiler)
 }
 
-/* room {
+ room {
     schemaDirectory("$projectDir/schemas")
-} */
+}
 
 compose.desktop {
     application {

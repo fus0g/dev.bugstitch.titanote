@@ -11,7 +11,17 @@ import com.composables.icons.lucide.Gamepad
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Rabbit
 import com.composables.icons.lucide.Snail
-import dev.bugstitch.titanote.R
+import titanote.app.generated.resources.Res
+import titanote.app.generated.resources.cake
+import titanote.app.generated.resources.candy
+import titanote.app.generated.resources.carrot
+import titanote.app.generated.resources.cat
+import titanote.app.generated.resources.cupSoda
+import titanote.app.generated.resources.dog
+import titanote.app.generated.resources.flower
+import titanote.app.generated.resources.gamePad
+import titanote.app.generated.resources.rabbit
+import titanote.app.generated.resources.snail
 
 val Logos  = listOf(
     Lucide.Cat,
@@ -27,14 +37,14 @@ val Logos  = listOf(
 )
 
 val LogoString = listOf(
-    R.string.cat,
-    R.string.flower,
-    R.string.carrot,
-    R.string.cake,
-    R.string.candy,
-    R.string.cupSoda,
-    R.string.dog,
-    R.string.rabbit,
-    R.string.snail,
-    R.string.gamePad
+    Res.string.cat,
+    Res.string.flower,
+    Res.string.carrot,
+    Res.string.cake,
+    Res.string.candy,
+    Res.string.cupSoda,
+    Res.string.dog,
+    Res.string.rabbit,
+    Res.string.snail,
+    Res.string.gamePad
 )

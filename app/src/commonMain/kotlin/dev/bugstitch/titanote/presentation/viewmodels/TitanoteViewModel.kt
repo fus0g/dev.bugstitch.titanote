@@ -5,17 +5,21 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.bugstitch.titanote.data.Note
+import dev.bugstitch.titanote.data.NoteState
+import dev.bugstitch.titanote.repository.NotesDatabaseRepository
+import dev.bugstitch.titanote.utils.TopBarState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.Date
+import kotlin.time.Clock
 
-class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseRepository,
-                        private val preferenceDatastore: PreferenceDatastore) : ViewModel() {
+class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseRepository) : ViewModel() {
 
     val notes:StateFlow<NoteState> = notesDatabaseRepository.getAllNotes().map { NoteState(it) }
         .stateIn(scope = viewModelScope,
@@ -55,11 +59,12 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     private val _sideMenuOpen = mutableStateOf(false)
     val sideMenuOpen:MutableState<Boolean> = _sideMenuOpen
 
-    val autosave:StateFlow<Boolean?> = preferenceDatastore.autosavePreferences.stateIn(
+    /*val autosave:StateFlow<Boolean?> = preferenceDatastore.autosavePreferences.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         initialValue = false
-    )
+    )*/
+    val autosave:StateFlow<Boolean?> = MutableStateFlow(false)
 
     private val _encryptionKeyExists:MutableState<Boolean?> = mutableStateOf(null)
     val encryptionKeyExists:MutableState<Boolean?> = _encryptionKeyExists
@@ -67,15 +72,7 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     private val _encrypted:MutableState<Boolean?> = mutableStateOf(null)
     val encrypted:MutableState<Boolean?> = _encrypted
 
-    val _salt:MutableState<String?> = mutableStateOf(null)
-    val salt:MutableState<String?> = _salt
-
-    private var currentNote:Note? = null
-
-
-    init {
-        checkEncryptionKeyStoreExists()
-    }
+    private var currentNote: Note? = null
 
 
     fun setNoteContent(text:String){
@@ -162,7 +159,7 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
         val note = Note(
             title = _noteTitle.value,
             content = _noteContent.value,
-            date = Date(),
+            date = Clock.System.now(),
             color = _noteColor.intValue,
             logo = _noteLogo.intValue
         )
@@ -176,7 +173,7 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     {
         val newNote = currentNote!!.copy(title = _noteTitle.value,
             content = _noteContent.value,
-            date = Date(),
+            date = Clock.System.now(),
             color = _noteColor.intValue,
             logo = _noteLogo.intValue)
 
@@ -195,21 +192,9 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     fun updateAutoSavePreference()
     {
         viewModelScope.launch(Dispatchers.IO) {
-            preferenceDatastore.updateAutosaveKey(!autosave.value!!)
+           // preferenceDatastore.updateAutosaveKey(!autosave.value!!)
         }
     }
 
-    private fun checkEncryptionKeyStoreExists(){
-        viewModelScope.launch {
-            _encryptionKeyExists.value = preferenceDatastore.encryptionExists()
-            if(_encryptionKeyExists.value == true)
-            {
-                if(preferenceDatastore.getEncryptionState() == true)
-                {
-                    _salt.value = preferenceDatastore.getSalt()
-                }
-            }
-        }
-    }
 
 }

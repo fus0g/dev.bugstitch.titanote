@@ -34,18 +34,19 @@ import titanote.app.generated.resources.Res
 import titanote.app.generated.resources.delete
 import titanote.app.generated.resources.edit
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
+import kotlin.time.Instant
 
 @Composable
-fun NoteCard(color:Int,
-             logo:Int,
-             title:String,
-             content:String,
-             date:Date,
-             delete:() -> Unit,
-             edit:() -> Unit,
-             onClick:() -> Unit
+fun NoteCard(
+    color: Int,
+    logo: Int,
+    title: String,
+    content: String,
+    date: Instant,
+    delete: () -> Unit,
+    edit: () -> Unit,
+    onClick: () -> Unit
 ) {
     Box(modifier = Modifier.padding(4.dp)) {
         Column(modifier = Modifier.width(175.dp)
