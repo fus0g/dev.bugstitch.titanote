@@ -2,6 +2,7 @@ package dev.bugstitch.titanote.repository
 
 import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.data.room.NotesDao
+import dev.bugstitch.titanote.utils.CustomLog
 import kotlinx.coroutines.flow.Flow
 
 interface NotesDatabaseRepository {
@@ -22,6 +23,7 @@ class NotesDatabaseRepositoryImpl(private val notesDao: NotesDao):NotesDatabaseR
     }
 
     override suspend fun insertNote(note: Note) {
+        CustomLog("REPO",note.toString())
         return notesDao.insertNote(note)
     }
 

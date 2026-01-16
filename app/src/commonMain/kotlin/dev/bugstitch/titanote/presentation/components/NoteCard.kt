@@ -29,12 +29,11 @@ import com.composables.icons.lucide.Trash
 import dev.bugstitch.titanote.presentation.theme.ZenColors
 import dev.bugstitch.titanote.utils.LogoString
 import dev.bugstitch.titanote.utils.Logos
+import dev.bugstitch.titanote.utils.formatForUi
 import org.jetbrains.compose.resources.stringResource
 import titanote.app.generated.resources.Res
 import titanote.app.generated.resources.delete
 import titanote.app.generated.resources.edit
-import java.text.SimpleDateFormat
-import java.util.Locale
 import kotlin.time.Instant
 
 @Composable
@@ -57,7 +56,7 @@ fun NoteCard(
             verticalArrangement = Arrangement.SpaceBetween) {
             SelectionContainer {
                 Column {
-                    Text(text = SimpleDateFormat("dd/MM/yyyy 'at' hh:mm a", Locale.getDefault()).format(date).toString(),
+                    Text(text = date.formatForUi(),
                         fontSize = 10.sp,
                         color = Color.DarkGray,
                         fontWeight = FontWeight.SemiBold

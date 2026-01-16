@@ -37,8 +37,7 @@ import dev.bugstitch.titanote.utils.LogoString
 import dev.bugstitch.titanote.utils.Logos
 import dev.bugstitch.titanote.utils.Navigation
 import dev.bugstitch.titanote.utils.TopBarState
-import java.text.SimpleDateFormat
-import java.util.Locale
+import dev.bugstitch.titanote.utils.formatForUi
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -104,8 +103,7 @@ fun PreviewScreen(viewModel: TitanoteViewModel, navController: NavController) {
                             currentNote?.let { note ->
                                 SelectionContainer {
                                     Text(
-                                        text = SimpleDateFormat("dd/MM/yyyy 'at' hh:mm a", Locale.getDefault())
-                                            .format(note.date).toString(),
+                                        text = note.date.formatForUi(),
                                         color = Color.DarkGray,
                                         fontWeight = FontWeight.SemiBold,
                                         fontSize = 12.sp

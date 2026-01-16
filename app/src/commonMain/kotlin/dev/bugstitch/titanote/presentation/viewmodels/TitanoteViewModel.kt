@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.data.NoteState
 import dev.bugstitch.titanote.repository.NotesDatabaseRepository
+import dev.bugstitch.titanote.utils.CustomLog
 import dev.bugstitch.titanote.utils.TopBarState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -164,6 +165,7 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
             logo = _noteLogo.intValue
         )
         viewModelScope.launch(Dispatchers.IO){
+            CustomLog("VM","Adding note")
             notesDatabaseRepository.insertNote(note)
             emptyCurrent()
         }

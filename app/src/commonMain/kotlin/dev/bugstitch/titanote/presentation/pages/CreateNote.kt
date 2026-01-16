@@ -90,7 +90,7 @@ fun CreateNote(viewModel: TitanoteViewModel, navController: NavController)
         floatingActionButton = {
             AddButton(Lucide.Save) {
                 navController.navigate(Navigation.HOME)
-               // viewModel.addNote()
+                viewModel.addNote()
             }
         },
         modifier = Modifier.imePadding()) { innerPadding ->
