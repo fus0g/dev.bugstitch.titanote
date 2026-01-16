@@ -1,35 +1,34 @@
-package dev.bugstitch.titanote.ui.pages
+package dev.bugstitch.titanote.presentation.pages
 
-import android.widget.Toast
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Save
-import dev.bugstitch.titanote.R
-import dev.bugstitch.titanote.TitanoteViewModel
-import dev.bugstitch.titanote.ui.components.AddButton
-import dev.bugstitch.titanote.ui.components.EditComponent
-import dev.bugstitch.titanote.ui.components.SideBar
-import dev.bugstitch.titanote.ui.components.TopBar
+import dev.bugstitch.titanote.presentation.components.AddButton
+import dev.bugstitch.titanote.presentation.components.EditComponent
+import dev.bugstitch.titanote.presentation.components.SideBar
+import dev.bugstitch.titanote.presentation.components.TopBar
+import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
 import dev.bugstitch.titanote.utils.Navigation
 import dev.bugstitch.titanote.utils.TopBarState
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun EditScreen(viewModel: TitanoteViewModel,navController: NavController) {
+fun EditScreen(viewModel: TitanoteViewModel, navController: NavController) {
 
-    val context = LocalContext.current
+    //val context = LocalContext.current
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -105,7 +104,7 @@ fun EditScreen(viewModel: TitanoteViewModel,navController: NavController) {
                         }
                     }
                     else{
-                    Toast.makeText(context, context.getString(R.string.should_not_be_empty), Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, context.getString(R.string.should_not_be_empty), Toast.LENGTH_SHORT).show()
                     }
                 }
         },

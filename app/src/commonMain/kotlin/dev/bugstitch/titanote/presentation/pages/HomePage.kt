@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.pages
+package dev.bugstitch.titanote.presentation.pages
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -15,7 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,15 +27,23 @@ import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
 import dev.bugstitch.titanote.R
 import dev.bugstitch.titanote.TitanoteViewModel
+import dev.bugstitch.titanote.presentation.components.AddButton
+import dev.bugstitch.titanote.presentation.components.NoteCard
+import dev.bugstitch.titanote.presentation.components.TopBar
+import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
 import dev.bugstitch.titanote.ui.components.AddButton
 import dev.bugstitch.titanote.ui.components.NoteCard
 import dev.bugstitch.titanote.ui.components.SideBar
 import dev.bugstitch.titanote.ui.components.TopBar
 import dev.bugstitch.titanote.utils.Navigation
 import dev.bugstitch.titanote.utils.TopBarState
+import org.jetbrains.compose.resources.stringResource
+import titanote.app.generated.resources.Res
+import titanote.app.generated.resources.beerJar
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
+fun HomePage(viewModel: TitanoteViewModel, navController: NavController) {
 
     BackHandler {
         if(viewModel.sideMenuOpen.value)
@@ -60,7 +70,7 @@ fun HomePage(viewModel: TitanoteViewModel,navController: NavController) {
                 Column(modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center){
-                    Icon(Lucide.Beer, contentDescription = stringResource(R.string.beerJar), modifier = Modifier.size(90.dp)
+                    Icon(Lucide.Beer, contentDescription = stringResource(Res.string.beerJar), modifier = Modifier.size(90.dp)
                         .padding(bottom = 20.dp))
                     Text(stringResource(R.string.no_notes),
                         fontSize = 20.sp,

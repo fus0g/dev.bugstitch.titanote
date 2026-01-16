@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.components
+package dev.bugstitch.titanote.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -15,20 +15,23 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.bugstitch.titanote.R
-import dev.bugstitch.titanote.TitanoteViewModel
-import dev.bugstitch.titanote.ui.theme.ZenColors
+import dev.bugstitch.titanote.presentation.theme.ZenColors
+import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
 import dev.bugstitch.titanote.utils.LogoString
 import dev.bugstitch.titanote.utils.Logos
+import org.jetbrains.compose.resources.stringResource
+import titanote.app.generated.resources.Res
+import titanote.app.generated.resources.content
+import titanote.app.generated.resources.title
 
 @Composable
 fun EditComponent(modifier: Modifier = Modifier,
-                  viewModel: TitanoteViewModel){
+                  viewModel: TitanoteViewModel
+){
 
     Column(modifier = modifier.fillMaxSize().padding(8.dp)
         .imePadding()) {
@@ -46,7 +49,7 @@ fun EditComponent(modifier: Modifier = Modifier,
                     onValueChange = {
                     viewModel.setNoteTitle(it)
                 },
-                    placeholder = { Text(stringResource(R.string.title),
+                    placeholder = { Text(stringResource(Res.string.title),
                         color = Color.DarkGray,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp) },
@@ -69,7 +72,7 @@ fun EditComponent(modifier: Modifier = Modifier,
                     viewModel.setNoteContent(it)
                 },
                     textStyle = TextStyle.Default.copy(color = ZenColors.Night),
-                    placeholder = { Text(stringResource(R.string.content),
+                    placeholder = { Text(stringResource(Res.string.content),
                         color = Color.DarkGray) },
                     modifier = Modifier.fillMaxWidth().padding(top = 0.dp),
                     colors = TextFieldDefaults.colors().copy(unfocusedContainerColor = Color.Transparent,

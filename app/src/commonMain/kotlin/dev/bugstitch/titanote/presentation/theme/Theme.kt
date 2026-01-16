@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.theme
+package dev.bugstitch.titanote.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

@@ -1,7 +1,5 @@
-package dev.bugstitch.titanote.ui.components
+package dev.bugstitch.titanote.presentation.components
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
@@ -16,15 +14,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.bugstitch.titanote.R
+import org.jetbrains.compose.resources.stringResource
+import titanote.app.generated.resources.Res
+import titanote.app.generated.resources.link
+import titanote.app.generated.resources.logo
 
 @Composable
 fun SideBarItem(logo:ImageVector,name:String,url:String)
 {
-    val context = LocalContext.current
+    //val context = LocalContext.current
 
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -33,17 +32,17 @@ fun SideBarItem(logo:ImageVector,name:String,url:String)
         .padding(start = 8.dp)
         .clickable(onClick = {
 
-            val urlIntent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(url))
-            context.startActivity(urlIntent)
+           // val urlIntent = Intent(
+            //    Intent.ACTION_VIEW,
+           //     Uri.parse(url))
+           // context.startActivity(urlIntent)
         }, indication = null,
             interactionSource = interactionSource,
-            onClickLabel = "$name ${stringResource(R.string.link)}") ,
+            onClickLabel = "$name ${stringResource(Res.string.link)}") ,
         verticalAlignment = Alignment.CenterVertically) {
         Icon(
             logo,
-            contentDescription = "$name ${stringResource(R.string.logo)}",
+            contentDescription = "$name ${stringResource(Res.string.logo)}",
             tint = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(end = 12.dp)
         )

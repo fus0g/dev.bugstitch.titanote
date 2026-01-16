@@ -29,8 +29,6 @@ kotlin {
 
             implementation(libs.hilt.android)
 
-            implementation(libs.icons.lucide)
-
             implementation(libs.androidx.datastore.preferences)
 
             //koin
@@ -52,6 +50,12 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+
+            //navigation
+            implementation(libs.navigation.compose)
+            implementation(libs.compose.backhandler)
+
+            implementation(libs.icons.lucide)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.components
+package dev.bugstitch.titanote.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
@@ -22,8 +22,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Github
@@ -33,8 +31,17 @@ import com.composables.icons.lucide.Save
 import com.composables.icons.lucide.Shield
 import com.composables.icons.lucide.Store
 import com.composables.icons.lucide.X
-import dev.bugstitch.titanote.R
-import dev.bugstitch.titanote.TitanoteViewModel
+import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
+import org.jetbrains.compose.resources.stringResource
+import titanote.app.generated.resources.Res
+import titanote.app.generated.resources.app_name
+import titanote.app.generated.resources.autosave
+import titanote.app.generated.resources.close
+import titanote.app.generated.resources.github
+import titanote.app.generated.resources.privacyPolicy
+import titanote.app.generated.resources.store
+import titanote.app.generated.resources.tos
+import titanote.app.generated.resources.version
 
 @Composable
 fun SideBar(viewModel: TitanoteViewModel){
@@ -58,37 +65,37 @@ fun SideBar(viewModel: TitanoteViewModel){
                     .padding(8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = stringResource(R.string.app_name),
+                    Text(text = stringResource(Res.string.app_name),
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )
 
                     IconButton(onClick = {viewModel.openSideMenu(false)}) {
-                        Icon(Lucide.X, contentDescription = stringResource(R.string.close), tint = MaterialTheme.colorScheme.onBackground)
+                        Icon(Lucide.X, contentDescription = stringResource(Res.string.close), tint = MaterialTheme.colorScheme.onBackground)
                     }
                 }
                 Column(modifier = Modifier.fillMaxSize().navigationBarsPadding().padding(8.dp),
                     verticalArrangement = Arrangement.SpaceBetween) {
                     Column {
-                        SideBarItem(Lucide.Store,stringResource(R.string.store),"https://play.google.com/store/apps/details?id=dev.bugstitch.titanote")
-                        SideBarItem(Lucide.Github, stringResource(R.string.github),"https://github.com/fus0g/dev.bugstitch.titanote")
-                        SideBarItem(Lucide.Shield,stringResource(R.string.privacyPolicy),"https://github.com/fus0g/dev.bugstitch.titanote/blob/master/PrivacyPolicy.MD")
-                        SideBarItem(Lucide.Notebook,stringResource(R.string.tos),"https://github.com/fus0g/dev.bugstitch.titanote/blob/master/ToC.MD")
+                        SideBarItem(Lucide.Store,stringResource(Res.string.store),"https://play.google.com/store/apps/details?id=dev.bugstitch.titanote")
+                        SideBarItem(Lucide.Github, stringResource(Res.string.github),"https://github.com/fus0g/dev.bugstitch.titanote")
+                        SideBarItem(Lucide.Shield,stringResource(Res.string.privacyPolicy),"https://github.com/fus0g/dev.bugstitch.titanote/blob/master/PrivacyPolicy.MD")
+                        SideBarItem(Lucide.Notebook,stringResource(Res.string.tos),"https://github.com/fus0g/dev.bugstitch.titanote/blob/master/ToC.MD")
                     }
 
 
                     Row(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-                        val context = LocalContext.current
+                        //val context = LocalContext.current
                         Column {
                             Column(modifier = Modifier.padding(bottom = 16.dp)) {
                                 AnimatedVisibility(autosave.value != null) {
-                                    SideBarPreference(Lucide.Save, stringResource(R.string.autosave),autosave.value!!) {
+                                    SideBarPreference(Lucide.Save, stringResource(Res.string.autosave),autosave.value!!) {
                                         viewModel.updateAutoSavePreference()
                                     }
                                 }
                             }
-                            Text("${stringResource(R.string.version)} ${context.packageManager.getPackageInfo(context.packageName,0).versionName}",
+                            Text("${stringResource(Res.string.version)} TODO",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.labelLarge)
                         }

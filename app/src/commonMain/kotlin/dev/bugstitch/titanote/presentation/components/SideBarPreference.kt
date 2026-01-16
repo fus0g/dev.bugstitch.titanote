@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.components
+package dev.bugstitch.titanote.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,9 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.bugstitch.titanote.R
+import org.jetbrains.compose.resources.stringResource
+import titanote.app.generated.resources.Res
+import titanote.app.generated.resources.logo
 
 @Composable
 fun SideBarPreference(logo: ImageVector, name:String,state:Boolean,onStateChange:(Boolean) -> Unit)
@@ -28,7 +29,7 @@ fun SideBarPreference(logo: ImageVector, name:String,state:Boolean,onStateChange
         Row{
             Icon(
                 logo,
-                contentDescription = "$name ${stringResource(R.string.logo)}",
+                contentDescription = "$name ${stringResource(Res.string.logo)}",
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(end = 12.dp)
             )

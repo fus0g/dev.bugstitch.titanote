@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.theme
+package dev.bugstitch.titanote.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 import dev.bugstitch.titanote.R

@@ -1,16 +1,10 @@
-package dev.bugstitch.titanote
+package dev.bugstitch.titanote.presentation.viewmodels
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.bugstitch.titanote.data.Note
-import dev.bugstitch.titanote.data.NoteState
-import dev.bugstitch.titanote.data.datastore.PreferenceDatastore
-import dev.bugstitch.titanote.repository.NotesDatabaseRepository
-import dev.bugstitch.titanote.utils.TopBarState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,10 +13,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Date
-import javax.inject.Inject
 
 class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseRepository,
-    private val preferenceDatastore: PreferenceDatastore) : ViewModel() {
+                        private val preferenceDatastore: PreferenceDatastore) : ViewModel() {
 
     val notes:StateFlow<NoteState> = notesDatabaseRepository.getAllNotes().map { NoteState(it) }
         .stateIn(scope = viewModelScope,
@@ -167,28 +160,28 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     {
 
         val note = Note(
-                title = _noteTitle.value,
-                content = _noteContent.value,
-                date = Date(),
-                color = _noteColor.intValue,
-                logo = _noteLogo.intValue
-            )
+            title = _noteTitle.value,
+            content = _noteContent.value,
+            date = Date(),
+            color = _noteColor.intValue,
+            logo = _noteLogo.intValue
+        )
         viewModelScope.launch(Dispatchers.IO){
-                notesDatabaseRepository.insertNote(note)
-                emptyCurrent()
+            notesDatabaseRepository.insertNote(note)
+            emptyCurrent()
         }
     }
 
     fun updateCurrentNote()
     {
         val newNote = currentNote!!.copy(title = _noteTitle.value,
-                content = _noteContent.value,
-                date = Date(),
-                color = _noteColor.intValue,
-                logo = _noteLogo.intValue)
+            content = _noteContent.value,
+            date = Date(),
+            color = _noteColor.intValue,
+            logo = _noteLogo.intValue)
 
         viewModelScope.launch(Dispatchers.IO){
-                notesDatabaseRepository.updateNote(newNote)
+            notesDatabaseRepository.updateNote(newNote)
         }
     }
 

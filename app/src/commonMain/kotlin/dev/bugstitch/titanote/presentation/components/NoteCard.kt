@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.components
+package dev.bugstitch.titanote.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,17 +20,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Pen
 import com.composables.icons.lucide.Trash
-import dev.bugstitch.titanote.R
-import dev.bugstitch.titanote.ui.theme.ZenColors
+import dev.bugstitch.titanote.presentation.theme.ZenColors
 import dev.bugstitch.titanote.utils.LogoString
 import dev.bugstitch.titanote.utils.Logos
+import org.jetbrains.compose.resources.stringResource
+import titanote.app.generated.resources.Res
+import titanote.app.generated.resources.delete
+import titanote.app.generated.resources.edit
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -76,12 +78,12 @@ fun NoteCard(color:Int,
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween) {
                 IconButton(onClick = delete) {
-                    Icon(Lucide.Trash, contentDescription = stringResource(R.string.delete),
+                    Icon(Lucide.Trash, contentDescription = stringResource(Res.string.delete),
                         modifier = Modifier.size(18.dp),
                         tint = ZenColors.Night)
                 }
                 IconButton(onClick = edit) {
-                    Icon(Lucide.Pen, contentDescription = stringResource(R.string.edit),
+                    Icon(Lucide.Pen, contentDescription = stringResource(Res.string.edit),
                         modifier = Modifier.size(18.dp),
                         tint = ZenColors.Night)
                 }

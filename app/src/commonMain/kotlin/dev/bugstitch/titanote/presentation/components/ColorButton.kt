@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.components
+package dev.bugstitch.titanote.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -11,11 +11,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.bugstitch.titanote.R
-import dev.bugstitch.titanote.ui.theme.ZenColors
-import dev.bugstitch.titanote.ui.theme.colorString
+import dev.bugstitch.titanote.presentation.theme.ZenColors
+import dev.bugstitch.titanote.presentation.theme.colorString
+import org.jetbrains.compose.resources.stringResource
+import titanote.app.generated.resources.Res
+import titanote.app.generated.resources.color
 
 @Composable
 fun ColorButton(modifier:Modifier = Modifier,color:Int,onClick:()->Unit){
@@ -28,7 +29,7 @@ fun ColorButton(modifier:Modifier = Modifier,color:Int,onClick:()->Unit){
             .background(ZenColors.NoteColors.colorList[color], shape = CircleShape)
             .clip(CircleShape)
             .clickable(onClick = onClick,
-                onClickLabel = "${stringResource(colorString[color])} ${stringResource(R.string.color)}"))
+                onClickLabel = "${stringResource(colorString[color])} ${stringResource(Res.string.color)}"))
     }
 
 }

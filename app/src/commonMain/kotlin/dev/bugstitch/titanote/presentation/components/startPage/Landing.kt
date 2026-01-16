@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.components.startPage
+package dev.bugstitch.titanote.presentation.components.startPage
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

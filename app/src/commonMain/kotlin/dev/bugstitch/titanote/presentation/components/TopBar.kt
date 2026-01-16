@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.components
+package dev.bugstitch.titanote.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -20,7 +20,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Lucide
@@ -28,13 +27,19 @@ import com.composables.icons.lucide.Menu
 import com.composables.icons.lucide.Search
 import com.composables.icons.lucide.Trash
 import com.composables.icons.lucide.X
-import dev.bugstitch.titanote.R
-import dev.bugstitch.titanote.TitanoteViewModel
 import dev.bugstitch.titanote.data.Note
-import dev.bugstitch.titanote.ui.theme.ZenColors
+import dev.bugstitch.titanote.presentation.theme.ZenColors
+import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
 import dev.bugstitch.titanote.utils.LogoString
 import dev.bugstitch.titanote.utils.Logos
 import dev.bugstitch.titanote.utils.TopBarState
+import org.jetbrains.compose.resources.stringResource
+import titanote.app.generated.resources.Res
+import titanote.app.generated.resources.app_name
+import titanote.app.generated.resources.close
+import titanote.app.generated.resources.delete
+import titanote.app.generated.resources.search
+import titanote.app.generated.resources.sidebar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +51,7 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
     Column(modifier = Modifier
         .fillMaxWidth()
         .background(MaterialTheme.colorScheme.surface)){
-        TopAppBar(title = { Text(stringResource(R.string.app_name),
+        TopAppBar(title = { Text(stringResource(Res.string.app_name),
             fontWeight = FontWeight.Bold) },
             actions = {
                 when(viewModel.topBarState.value)
@@ -57,9 +62,9 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
                         }) {
                             if(!viewModel.searchState.value)
                             {
-                                Icon(Lucide.Search, contentDescription = stringResource(R.string.search))
+                                Icon(Lucide.Search, contentDescription = stringResource(Res.string.search))
                             }else{
-                                Icon(Lucide.X, contentDescription = stringResource(R.string.close))
+                                Icon(Lucide.X, contentDescription = stringResource(Res.string.close))
                             }
                         }
                     }
@@ -78,7 +83,7 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
                             viewModel.emptyCurrent()
                             viewModel.nullCurrentNote()
                         } }) {
-                            Icon(Lucide.Trash, contentDescription = stringResource(R.string.delete))
+                            Icon(Lucide.Trash, contentDescription = stringResource(Res.string.delete))
                         }
 
                     }
@@ -87,7 +92,7 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
             navigationIcon = {
                 IconButton(onClick = {
                     viewModel.openSideMenu(true)
-                }) { Icon(Lucide.Menu, contentDescription = stringResource(R.string.sidebar)) }
+                }) { Icon(Lucide.Menu, contentDescription = stringResource(Res.string.sidebar)) }
 
             })
        AnimatedVisibility(viewModel.searchState.value && viewModel.topBarState.value == TopBarState.Home, enter = expandVertically()) {
@@ -98,7 +103,7 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
                    onValueChange = {
                        viewModel.setSearchText(it)
                    },
-                   placeholder = { Text(stringResource(R.string.search)) })
+                   placeholder = { Text(stringResource(Res.string.search)) })
            }
        }
         AnimatedVisibility(viewModel.selectColorState.value

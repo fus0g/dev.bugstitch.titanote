@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.pages
+package dev.bugstitch.titanote.presentation.pages
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -18,7 +18,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,6 +29,12 @@ import androidx.navigation.NavController
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Pen
 import dev.bugstitch.titanote.TitanoteViewModel
+import dev.bugstitch.titanote.presentation.components.AddButton
+import dev.bugstitch.titanote.presentation.components.LogoButton
+import dev.bugstitch.titanote.presentation.components.SideBar
+import dev.bugstitch.titanote.presentation.components.TopBar
+import dev.bugstitch.titanote.presentation.theme.ZenColors
+import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
 import dev.bugstitch.titanote.ui.components.AddButton
 import dev.bugstitch.titanote.ui.components.LogoButton
 import dev.bugstitch.titanote.ui.components.SideBar
@@ -39,8 +47,9 @@ import dev.bugstitch.titanote.utils.TopBarState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun PreviewScreen(viewModel: TitanoteViewModel,navController: NavController) {
+fun PreviewScreen(viewModel: TitanoteViewModel, navController: NavController) {
     BackHandler {
         if(viewModel.sideMenuOpen.value)
         {

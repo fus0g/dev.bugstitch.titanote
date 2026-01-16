@@ -1,4 +1,4 @@
-package dev.bugstitch.titanote.ui.components
+package dev.bugstitch.titanote.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
@@ -10,9 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.bugstitch.titanote.R
+import org.jetbrains.compose.resources.stringResource
+import titanote.app.generated.resources.Res
+import titanote.app.generated.resources.add_note
 
 @Composable
 fun AddButton(image:ImageVector,onclick: ()->Unit)
@@ -21,7 +22,7 @@ fun AddButton(image:ImageVector,onclick: ()->Unit)
         .size(64.dp)
         .background(MaterialTheme.colorScheme.primary, shape = CircleShape)
         .clip(CircleShape)) {
-        Icon(image, contentDescription = stringResource(R.string.add_note),
+        Icon(image, contentDescription = stringResource(Res.string.add_note),
             tint = MaterialTheme.colorScheme.background)
     }
 }
