@@ -31,6 +31,7 @@ import com.composables.icons.lucide.Save
 import com.composables.icons.lucide.Shield
 import com.composables.icons.lucide.Store
 import com.composables.icons.lucide.X
+import dev.bugstitch.titanote.CommonBuildConfig
 import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
 import org.jetbrains.compose.resources.stringResource
 import titanote.app.generated.resources.Res
@@ -95,7 +96,7 @@ fun SideBar(viewModel: TitanoteViewModel){
                                     }
                                 }
                             }
-                            Text("${stringResource(Res.string.version)} TODO",
+                            Text("${stringResource(Res.string.version)} ${CommonBuildConfig.VERSION_NAME}",
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.labelLarge)
                         }

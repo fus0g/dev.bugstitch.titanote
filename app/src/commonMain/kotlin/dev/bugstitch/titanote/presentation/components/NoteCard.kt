@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -26,6 +27,8 @@ import androidx.compose.ui.unit.sp
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Pen
 import com.composables.icons.lucide.Trash
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
+import com.mohamedrejeb.richeditor.ui.material3.RichText
 import dev.bugstitch.titanote.presentation.theme.ZenColors
 import dev.bugstitch.titanote.utils.LogoString
 import dev.bugstitch.titanote.utils.Logos
@@ -47,46 +50,58 @@ fun NoteCard(
     edit: () -> Unit,
     onClick: () -> Unit
 ) {
+    val richTextState = rememberRichTextState()
+    richTextState.setMarkdown(content)
+
     Box(modifier = Modifier.padding(4.dp)) {
-        Column(modifier = Modifier.width(175.dp)
-            .height(220.dp)
-            .background(color = ZenColors.NoteColors.colorList[color], shape = RoundedCornerShape(15.dp))
+        Column(modifier = Modifier.fillMaxWidth()
+            .sizeIn(maxWidth = 220.dp)
             .padding(8.dp)
             .clickable { onClick() },
             verticalArrangement = Arrangement.SpaceBetween) {
-            SelectionContainer {
-                Column {
+
+            Column {
+                Row(verticalAlignment = Alignment.CenterVertically){
+                    Text(modifier = Modifier.padding(start = 8.dp),text = title, maxLines = 1,
+                        fontWeight = FontWeight.Bold,
+                        color = ZenColors.Night,
+                        fontSize = 24.sp
+                    )
+                }
+                RichText(state = richTextState, maxLines = 5,
+                    color = ZenColors.Night,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(top = 8.dp))
+            }
+            Column {
+
+                Row(modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically) {
                     Text(text = date.formatForUi(),
                         fontSize = 10.sp,
-                        color = Color.DarkGray,
                         fontWeight = FontWeight.SemiBold
                     )
-                    Row(verticalAlignment = Alignment.CenterVertically){
-                        LogoButton(icon = Logos[logo], contentDescription = LogoString[logo],static = true, size = 35.dp)
-                        Text(modifier = Modifier.padding(start = 8.dp),text = title, maxLines = 1,
-                            fontWeight = FontWeight.Bold,
-                            color = ZenColors.Night,
-                            fontSize = 16.sp
-                        )
+                    Row {
+
+                        IconButton(onClick = delete) {
+                            Icon(Lucide.Trash, contentDescription = stringResource(Res.string.delete),
+                                modifier = Modifier.size(18.dp),
+                                tint = ZenColors.Night)
+                        }
+                        IconButton(onClick = edit) {
+                            Icon(Lucide.Pen, contentDescription = stringResource(Res.string.edit),
+                                modifier = Modifier.size(18.dp),
+                                tint = ZenColors.Night)
+                        }
                     }
-                    Text(text = content, maxLines = 5,
-                        color = ZenColors.Night,
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(top = 8.dp))
                 }
-            }
-            Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                IconButton(onClick = delete) {
-                    Icon(Lucide.Trash, contentDescription = stringResource(Res.string.delete),
-                        modifier = Modifier.size(18.dp),
-                        tint = ZenColors.Night)
-                }
-                IconButton(onClick = edit) {
-                    Icon(Lucide.Pen, contentDescription = stringResource(Res.string.edit),
-                        modifier = Modifier.size(18.dp),
-                        tint = ZenColors.Night)
-                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(Color.LightGray)
+                )
             }
         }
     }

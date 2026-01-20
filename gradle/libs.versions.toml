@@ -19,6 +19,8 @@ kotlinx-coroutines = "1.10.2"
 navigationCompose = "2.9.1"
 dateTime = "0.7.1"
 
+richtext = "1.0.0-rc13"
+
 [libraries]
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
@@ -48,6 +50,9 @@ compose-backhandler = {module = "org.jetbrains.compose.ui:ui-backhandler",versio
 androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+#compose-richtext
+compose-rich-editor = {module="com.mohamedrejeb.richeditor:richeditor-compose",version.ref="richtext"}
 
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

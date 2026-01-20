@@ -1,6 +1,9 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
+val version:String = "1.2.0"
+val versionCode = 14
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
@@ -16,10 +19,14 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-
     jvm()
 
     sourceSets {
+
+        val commonMain by getting {
+            kotlin.srcDir("build/generated/commonMain")
+        }
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -60,6 +67,8 @@ kotlin {
             implementation(libs.androidx.sqlite.bundled)
 
             implementation(libs.kotlinx.datetime)
+
+            implementation(libs.compose.rich.editor)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -68,7 +77,38 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
         }
+
     }
+}
+
+val generateCommonBuildConfig by tasks.registering {
+    val outputDir = layout.buildDirectory.dir("generated/commonMain")
+
+    outputs.dir(outputDir)
+
+    doLast {
+        val file = outputDir.get().file("BuildConfig.kt").asFile
+        file.parentFile.mkdirs()
+
+        file.writeText(
+            """
+            package dev.bugstitch.titanote
+
+            object CommonBuildConfig {
+                const val VERSION_NAME = "$version"
+                const val VERSION_CODE = $versionCode
+            }
+            """.trimIndent()
+        )
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    dependsOn(generateCommonBuildConfig)
+}
+
+tasks.withType<com.google.devtools.ksp.gradle.KspAATask>().configureEach {
+    dependsOn(generateCommonBuildConfig)
 }
 
 android {
@@ -79,8 +119,8 @@ android {
         applicationId = "dev.bugstitch.titanote"
         minSdk = 25
         targetSdk = 35
-        versionCode = 13
-        versionName = "1.1"
+        versionCode = versionCode
+        versionName = version
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -133,7 +173,7 @@ compose.desktop {
                 TargetFormat.Exe
             )
             packageName = "dev.bugstitch.titanote"
-            packageVersion = "1.0.0"
+            packageVersion = version
         }
     }
 }

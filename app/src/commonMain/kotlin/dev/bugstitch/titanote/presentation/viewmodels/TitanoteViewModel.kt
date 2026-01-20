@@ -87,8 +87,8 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
     fun setCurrentNote(note: Note){
         _noteContent.value = note.content
         _noteTitle.value = note.title
-        _noteColor.intValue = note.color
-        _noteLogo.intValue = note.logo
+        //_noteColor.intValue = note.color
+        //_noteLogo.intValue = note.logo
         currentNote = note
     }
 
@@ -161,8 +161,8 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
             title = _noteTitle.value,
             content = _noteContent.value,
             date = Clock.System.now(),
-            color = _noteColor.intValue,
-            logo = _noteLogo.intValue
+          //  color = _noteColor.intValue,
+          //  logo = _noteLogo.intValue
         )
         viewModelScope.launch(Dispatchers.IO){
             CustomLog("VM","Adding note")
@@ -176,8 +176,9 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
         val newNote = currentNote!!.copy(title = _noteTitle.value,
             content = _noteContent.value,
             date = Clock.System.now(),
-            color = _noteColor.intValue,
-            logo = _noteLogo.intValue)
+            //color = _noteColor.intValue,
+            //logo = _noteLogo.intValue
+        )
 
         viewModelScope.launch(Dispatchers.IO){
             notesDatabaseRepository.updateNote(newNote)

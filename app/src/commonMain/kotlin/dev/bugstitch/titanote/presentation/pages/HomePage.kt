@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Icon
@@ -72,8 +73,7 @@ fun HomePage(viewModel: TitanoteViewModel, navController: NavController) {
                 }
             }
             AnimatedVisibility(noteList.value.notes.isNotEmpty()) {
-                LazyVerticalGrid(columns = GridCells.FixedSize(175.dp), modifier = Modifier.padding(4.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly) {
+                LazyColumn( modifier = Modifier.padding(4.dp)) {
                     if(viewModel.searchState.value && viewModel.searchText.value != "")
                     {
                         noteList.value.notes.filter {
@@ -82,11 +82,11 @@ fun HomePage(viewModel: TitanoteViewModel, navController: NavController) {
                             note->
                             item {
                                 NoteCard(
-                                    color = note.color,
+                                    color = 0,
                                     title = note.title,
                                     content = note.content,
                                     date = note.date,
-                                    logo = note.logo,
+                                    logo = 0,
                                     edit = {
                                         viewModel.setCurrentNote(note)
                                         navController.navigate(Navigation.EDIT_NOTE)
@@ -106,11 +106,11 @@ fun HomePage(viewModel: TitanoteViewModel, navController: NavController) {
                         noteList.value.notes.forEach { note ->
                             item {
                                 NoteCard(
-                                    color = note.color,
+                                    color = 0,
                                     title = note.title,
                                     content = note.content,
                                     date = note.date,
-                                    logo = note.logo,
+                                    logo = 0,
                                     edit = {
                                         viewModel.setCurrentNote(note)
                                         navController.navigate(Navigation.EDIT_NOTE)
