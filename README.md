@@ -1,26 +1,15 @@
 # Titan Note
 <img src="https://raw.githubusercontent.com/fus0g/dev.bugstitch.titanote/refs/heads/master/screenshots/feature.png" alt="Titan Note Poster">
 
-Titan Note is a minimalist, offline-first note-taking app focused on simplicity and privacy. Built with Android best practices and Material Design 3, Titan Note provides a clean, distraction-free environment for your thoughts.
+Titan Note is a minimalist, offline-first note-taking app focused on simplicity and privacy. Built with Kotlin Multiplatform and Compose Multiplatform, Titan Note provides a clean, distraction-free environment for your thoughts.
 
 ## Features
 - 🔒 **Completely Offline** - All notes are stored locally on your device
-- 💾 **Auto-Saving** - Your notes are saved automatically as you type
-- 🎨 **Material Design** - Clean, modern interface following Material Design 3 guidelines
 - 📱 **Minimal & Fast** - Lightweight app focused on essential note-taking features
 - 🆓 **Free & Open Source** - No ads, no trackers, no hidden costs
 - 🔐 **Privacy First** - No data collection, no internet connection required
 - 🌙 **Dark Mode** - Easy on the eyes with automatic theme switching
-
-## Screenshots
-<div>
-<img src="https://raw.githubusercontent.com/fus0g/dev.bugstitch.titanote/refs/heads/master/screenshots/ss1.png" width="200" alt="Write Things you forget often"/>
-<img src="https://raw.githubusercontent.com/fus0g/dev.bugstitch.titanote/refs/heads/master/screenshots/ss2.png" width="200" alt="Many colours and icons to assign "/>
-<img src="https://raw.githubusercontent.com/fus0g/dev.bugstitch.titanote/refs/heads/master/screenshots/ss3.png" width="200" alt="Search something you missed"/>
-<img src="https://raw.githubusercontent.com/fus0g/dev.bugstitch.titanote/refs/heads/master/screenshots/ss4.png" width="200" alt="edit a previous note"/>
-<img src="https://raw.githubusercontent.com/fus0g/dev.bugstitch.titanote/refs/heads/master/screenshots/ss5.png" width="200" alt="Open-Source"/>
-</div>
-
+- 💻 **Multiplatform** - Currently supports Android and Desktop(WIP Ui not be that great)
 
 ## Privacy
 Titan Note respects your privacy:
@@ -38,11 +27,9 @@ Titan Note respects your privacy:
 </a>
 
 ## Built With
-- Kotlin - Primary programming language
-- Jetpack Compose - Modern Android UI toolkit
-- Material Design 3 - Design system
+- Kotlin Multiplatform - Primary programming language
+- Compose Multiplatform - Modern Android UI toolkit
 - Room Database - Local data storage
-- Android Architecture Components
 
 ## Contributing
 Contributions are welcome! Feel free to:
