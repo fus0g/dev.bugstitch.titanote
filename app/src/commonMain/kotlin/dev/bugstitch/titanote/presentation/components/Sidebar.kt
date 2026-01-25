@@ -24,28 +24,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.composables.icons.lucide.Github
 import com.composables.icons.lucide.Lucide
-import com.composables.icons.lucide.Notebook
 import com.composables.icons.lucide.Save
-import com.composables.icons.lucide.Shield
-import com.composables.icons.lucide.Store
 import com.composables.icons.lucide.X
 import dev.bugstitch.titanote.CommonBuildConfig
 import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
+import dev.bugstitch.titanote.utils.sideBarItems
 import org.jetbrains.compose.resources.stringResource
 import titanote.app.generated.resources.Res
 import titanote.app.generated.resources.app_name
 import titanote.app.generated.resources.autosave
 import titanote.app.generated.resources.close
-import titanote.app.generated.resources.github
-import titanote.app.generated.resources.privacyPolicy
-import titanote.app.generated.resources.store
-import titanote.app.generated.resources.tos
 import titanote.app.generated.resources.version
 
 @Composable
-fun SideBar(viewModel: TitanoteViewModel){
+fun SideBar(viewModel: TitanoteViewModel,
+            onUrlClick:(String) -> Unit){
 
     val autosave = viewModel.autosave.collectAsState()
 
@@ -79,15 +73,19 @@ fun SideBar(viewModel: TitanoteViewModel){
                 Column(modifier = Modifier.fillMaxSize().navigationBarsPadding().padding(8.dp),
                     verticalArrangement = Arrangement.SpaceBetween) {
                     Column {
-                        SideBarItem(Lucide.Store,stringResource(Res.string.store),"https://play.google.com/store/apps/details?id=dev.bugstitch.titanote")
-                        SideBarItem(Lucide.Github, stringResource(Res.string.github),"https://github.com/fus0g/dev.bugstitch.titanote")
-                        SideBarItem(Lucide.Shield,stringResource(Res.string.privacyPolicy),"https://github.com/fus0g/dev.bugstitch.titanote/blob/master/PrivacyPolicy.MD")
-                        SideBarItem(Lucide.Notebook,stringResource(Res.string.tos),"https://github.com/fus0g/dev.bugstitch.titanote/blob/master/ToC.MD")
+                        sideBarItems.forEach { sideBarItem ->
+                            SideBarItem(
+                                logo = sideBarItem.logo,
+                                name = stringResource(sideBarItem.name),
+                                onClick = {
+                                    onUrlClick(sideBarItem.url)
+                                }
+                            )
+                        }
                     }
 
 
                     Row(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-                        //val context = LocalContext.current
                         Column {
                             Column(modifier = Modifier.padding(bottom = 16.dp)) {
                                 AnimatedVisibility(autosave.value != null) {

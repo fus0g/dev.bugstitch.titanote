@@ -33,3 +33,12 @@ fun Instant.formatForUi(): String {
     return "${two(local.dayOfMonth)}/${two(local.monthNumber)}/${local.year} " +
             "at ${two(hour12)}:${two(local.minute)} $amPm"
 }
+
+object DateConverterObject{
+    fun fromTimestamp(value: Long?): Instant {
+        return value?.let { Instant.fromEpochMilliseconds(it) }?: Instant.fromEpochMilliseconds(0)
+    }
+    fun instantToTimestamp(instant: Instant?): Long {
+        return instant?.toEpochMilliseconds() ?: 0
+    }
+}

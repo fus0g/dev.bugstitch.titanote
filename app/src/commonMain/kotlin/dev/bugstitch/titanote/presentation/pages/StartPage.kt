@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import dev.bugstitch.titanote.presentation.components.TopBar
 import dev.bugstitch.titanote.presentation.components.startPage.Animal
 import dev.bugstitch.titanote.presentation.components.startPage.Landing
 import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel

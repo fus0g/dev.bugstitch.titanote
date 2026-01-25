@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room)
+    alias(libs.plugins.kotlinSerialization)
 }
 kotlin {
     androidTarget {
@@ -69,7 +70,10 @@ kotlin {
             implementation(libs.kotlinx.datetime)
 
             implementation(libs.compose.rich.editor)
-        }
+
+            implementation(libs.kotlinx.serialization.json)
+
+    }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }

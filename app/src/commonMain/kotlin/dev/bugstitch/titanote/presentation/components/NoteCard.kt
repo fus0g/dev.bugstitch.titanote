@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -30,8 +27,6 @@ import com.composables.icons.lucide.Trash
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichText
 import dev.bugstitch.titanote.presentation.theme.ZenColors
-import dev.bugstitch.titanote.utils.LogoString
-import dev.bugstitch.titanote.utils.Logos
 import dev.bugstitch.titanote.utils.formatForUi
 import org.jetbrains.compose.resources.stringResource
 import titanote.app.generated.resources.Res

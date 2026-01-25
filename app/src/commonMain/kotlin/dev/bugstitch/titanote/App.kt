@@ -5,29 +5,32 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Pen
 import com.composables.icons.lucide.Plus
-import com.composables.icons.lucide.Save
+import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.presentation.components.AddButton
+import dev.bugstitch.titanote.presentation.components.HomeRoute
+import dev.bugstitch.titanote.presentation.components.PreviewRoute
 import dev.bugstitch.titanote.presentation.components.SideBar
 import dev.bugstitch.titanote.presentation.components.TopBar
-import dev.bugstitch.titanote.presentation.pages.CreateNote
-import dev.bugstitch.titanote.presentation.pages.EditScreen
 import dev.bugstitch.titanote.presentation.pages.EditScreenNew
 import dev.bugstitch.titanote.presentation.pages.HomePage
 import dev.bugstitch.titanote.presentation.pages.PreviewScreen
 import dev.bugstitch.titanote.presentation.pages.StartPage
 import dev.bugstitch.titanote.presentation.theme.TitanoteTheme
+import dev.bugstitch.titanote.presentation.viewmodels.HomePageViewModel
 import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
+import dev.bugstitch.titanote.utils.DateConverterObject
 import dev.bugstitch.titanote.utils.Navigation
 import dev.bugstitch.titanote.utils.TopBarState
 import org.koin.compose.viewmodel.koinViewModel
@@ -37,61 +40,66 @@ import org.koin.compose.viewmodel.koinViewModel
 fun App(){
     TitanoteTheme {
         val navController = rememberNavController()
-        val backStackEntry = navController.currentBackStackEntryAsState()
 
-        val viewModel = koinViewModel<TitanoteViewModel>()
+        val globalViewModel = koinViewModel<TitanoteViewModel>()
 
         Scaffold(
             topBar = {
-                TopBar(topBarState = viewModel.topBarState.value,
-                    searchState = viewModel.searchState.value,
+                TopBar(topBarState = globalViewModel.topBarState.value,
+                    searchState = globalViewModel.searchState.value,
                     onDelete = {
-                        if(viewModel.getCurrentNote() != null)
+                        if(globalViewModel.getCurrentNote() != null)
                         {
-                            viewModel.deleteNote(viewModel.getCurrentNote()!!)
-                            viewModel.nullCurrentNote()
+                            globalViewModel.deleteNote(globalViewModel.getCurrentNote()!!)
+                            globalViewModel.nullCurrentNote()
                         }
-                        navController.navigate(Navigation.HOME)
+                        navController.navigate(HomeRoute)
                     },
-                    searchValue = viewModel.searchText.value,
+                    searchValue = globalViewModel.searchText.value,
                     onSearchValueChange = {
-                        viewModel.setSearchText(it)
+                        globalViewModel.setSearchText(it)
                     },
                     onSearchButtonPressed = {
-                        viewModel.setSearchState(!viewModel.searchState.value)
+                        globalViewModel.setSearchState(!globalViewModel.searchState.value)
                     },
                     onSideBarButtonPress = {
-                        viewModel.openSideMenu(!viewModel.sideMenuOpen.value)
+                        globalViewModel.openSideMenu(!globalViewModel.sideMenuOpen.value)
                     },
                     onSavePress = {
-                        viewModel.addNote()
-                        viewModel.nullCurrentNote()
-                        navController.navigate(Navigation.HOME)
+                        globalViewModel.addNote()
+                        globalViewModel.nullCurrentNote()
+                        navController.navigate(HomeRoute)
                     },
                     onUpdatePressed = {
-                        if(navController.previousBackStackEntry?.destination?.route == Navigation.PREVIEW_SCREEN)
+                        if(navController.previousBackStackEntry?.destination?.hasRoute<PreviewRoute>() == true)
                         {
-                            viewModel.updateCurrentNote()
-                            navController.navigate(Navigation.PREVIEW_SCREEN)
-                            viewModel.emptyCurrent()
+                            globalViewModel.updateCurrentNote()
+                            navController.navigate(
+                                PreviewRoute(
+                                    id = globalViewModel.getCurrentNote()!!.id,
+                                    title = globalViewModel.noteTitle.value,
+                                    content = globalViewModel.noteContent.value,
+                                    date = DateConverterObject.instantToTimestamp(globalViewModel.getCurrentNote()!!.date)
+                                )
+                            )
                         }else{
 
-                            viewModel.updateCurrentNote()
-                            navController.navigate(Navigation.HOME)
-                            viewModel.emptyCurrent()
+                            globalViewModel.updateCurrentNote()
+                            navController.navigate(HomeRoute)
+                            globalViewModel.emptyCurrent()
                         }
                     }
                 )
             },
             floatingActionButton = {
-                when(backStackEntry.value?.destination?.route){
-                    Navigation.HOME->{
+                when(globalViewModel.topBarState.value){
+                    TopBarState.Home ->{
                         AddButton(Lucide.Plus) {
                             navController.navigate(Navigation.CREATE_NOTE)
                         }
                     }
 
-                    Navigation.PREVIEW_SCREEN ->{
+                    TopBarState.Preview ->{
                         AddButton(Lucide.Pen) {
                             navController.navigate(Navigation.EDIT_NOTE)
                         }
@@ -102,87 +110,130 @@ fun App(){
         ) {
             Column(modifier = Modifier.padding(it)) {
 
-                NavHost(navController = navController, startDestination = Navigation.HOME,
+                NavHost(navController = navController, startDestination = HomeRoute,
                     modifier = Modifier.background(MaterialTheme.colorScheme.background)){
                     composable(route = Navigation.CREATE_NOTE){
-                        viewModel.setTopBarState(TopBarState.Create)
+                        globalViewModel.setTopBarState(TopBarState.Create)
                         EditScreenNew(
                             addToViewModel = {
                                      content ->
-                                viewModel.setNoteContent(content)
+                                globalViewModel.setNoteContent(content)
                             },
-                            currentTitle = viewModel.noteTitle.value,
-                            currentContent = viewModel.noteContent.value,
+                            currentTitle = globalViewModel.noteTitle.value,
+                            currentContent = globalViewModel.noteContent.value,
                             onTitleChange = {t->
-                                viewModel.setNoteTitle(t)
+                                globalViewModel.setNoteTitle(t)
                             },
                             onBack = {
-                                if(navController.previousBackStackEntry?.destination?.route == Navigation.PREVIEW_SCREEN)
-                                {
-                                    navController.navigate(Navigation.PREVIEW_SCREEN)
-                                    viewModel.emptyCurrent()
-                                }else{
 
-                                    navController.navigate(Navigation.HOME)
-                                    viewModel.emptyCurrent()
-                                }
+                                navController.navigate(HomeRoute)
+                                globalViewModel.emptyCurrent()
                             }
                         )
                         //CreateNote(viewModel,navController)
                     }
-                    composable(route = Navigation.HOME) {
-                        HomePage(viewModel,navController,
-                            {
+                    composable<HomeRoute> {
+                        globalViewModel.setTopBarState(TopBarState.Home)
+
+                        val localViewModel: HomePageViewModel = koinViewModel()
+
+                        val list = localViewModel.notes.collectAsState()
+
+                        HomePage(
+                            noteList = list.value.notes,
+                            searchState = globalViewModel.searchState.value,
+                            searchText = globalViewModel.searchText.value,
+                            onNoteClick = {
+                                    note ->
+                                navController.navigate(
+                                    PreviewRoute(
+                                        id = note.id,
+                                        title = note.title,
+                                        content = note.content,
+                                        date = DateConverterObject.instantToTimestamp(note.date)
+                                    )
+                                )
+                                globalViewModel.setCurrentNote(note)
+
+                            },
+                            onNoteEditClick = {
+
+                            },
+                            onNoteDeleteClick = {
+                                note ->
+                                localViewModel.deleteNote(note)
+                            },
+                            onBack = {
                                 navController.popBackStack()
                             })
                     }
                     composable(route = Navigation.EDIT_NOTE){
-                        viewModel.setTopBarState(TopBarState.Edit)
+                        globalViewModel.setTopBarState(TopBarState.Edit)
                         EditScreenNew(
                             addToViewModel = {
                                 content ->
-                                viewModel.setNoteContent(content)
+                                globalViewModel.setNoteContent(content)
                             },
-                            currentTitle = viewModel.noteTitle.value,
-                            currentContent = viewModel.noteContent.value,
+                            currentTitle = globalViewModel.noteTitle.value,
+                            currentContent = globalViewModel.noteContent.value,
                             onTitleChange = {t->
-                                viewModel.setNoteTitle(t)
+                                globalViewModel.setNoteTitle(t)
                             },
                             onBack = {
-                                if(navController.previousBackStackEntry?.destination?.route == Navigation.PREVIEW_SCREEN)
+                                if(navController.previousBackStackEntry?.destination?.hasRoute<PreviewRoute>() == true)
                                 {
-                                    navController.navigate(Navigation.PREVIEW_SCREEN)
-                                    viewModel.emptyCurrent()
+                                    navController.navigate(
+                                        PreviewRoute(
+                                            id = globalViewModel.getCurrentNote()!!.id,
+                                            title = globalViewModel.noteTitle.value,
+                                            content = globalViewModel.noteContent.value,
+                                            date = globalViewModel.getCurrentNote()!!.date.toEpochMilliseconds()
+                                        )
+                                    )
                                 }else{
 
-                                    navController.navigate(Navigation.HOME)
-                                    viewModel.emptyCurrent()
+                                    navController.navigate(HomeRoute)
+                                    globalViewModel.emptyCurrent()
                                 }
                             }
                         )
                         // EditScreen(viewModel,navController)
                     }
-                    composable(route = Navigation.PREVIEW_SCREEN)
-                    {
-                        viewModel.setTopBarState(TopBarState.Preview)
-                        val note = viewModel.getCurrentNote()
-                        if(note!= null)
-                        {
-                            PreviewScreen(note,
-                                onBack = {
-                                    navController.navigate(Navigation.HOME)
-                                    viewModel.emptyCurrent()
-                                })
-                        }
+                    composable<PreviewRoute>
+                    { backStackEntry->
+                        globalViewModel.setTopBarState(TopBarState.Preview)
+
+                        val previewRoute = backStackEntry.toRoute<PreviewRoute>()
+
+                        val note = Note(
+                            id = previewRoute.id,
+                            title = previewRoute.title,
+                            content = previewRoute.content,
+                            date = DateConverterObject.fromTimestamp(previewRoute.date)
+                        )
+
+                        globalViewModel.setCurrentNote(note)
+
+                        PreviewScreen(note,
+                            onBack = {
+                                navController.navigate(HomeRoute)
+                                globalViewModel.emptyCurrent()
+                            })
+
                     }
                     composable(Navigation.START_PAGE) {
-                        StartPage(viewModel)
+                        StartPage(globalViewModel)
                     }
                 }
             }
 
         }
-        SideBar(viewModel)
+        val uriHandler = LocalUriHandler.current
+        SideBar(globalViewModel,
+            onUrlClick = {
+                url->
+                uriHandler.openUri(url)
+            })
 
     }
 }

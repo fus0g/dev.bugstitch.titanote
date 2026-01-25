@@ -7,30 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.composables.icons.lucide.Beer
 import com.composables.icons.lucide.Lucide
-import com.composables.icons.lucide.Plus
-import dev.bugstitch.titanote.presentation.components.AddButton
+import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.presentation.components.NoteCard
-import dev.bugstitch.titanote.presentation.components.SideBar
-import dev.bugstitch.titanote.presentation.components.TopBar
-import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
-import dev.bugstitch.titanote.utils.Navigation
-import dev.bugstitch.titanote.utils.TopBarState
 import org.jetbrains.compose.resources.stringResource
 import titanote.app.generated.resources.Res
 import titanote.app.generated.resources.beerJar
@@ -38,25 +27,24 @@ import titanote.app.generated.resources.no_notes
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun HomePage(viewModel: TitanoteViewModel, navController: NavController,
-             onBack:()->Unit
+fun HomePage(
+    noteList:List<Note>,
+    searchState: Boolean,
+    searchText: String,
+    onBack:()->Unit,
+    onNoteClick:(Note)->Unit,
+    onNoteEditClick:(Note)->Unit,
+    onNoteDeleteClick:(Note)->Unit
 ) {
 
     BackHandler {
         onBack()
-        if(viewModel.sideMenuOpen.value)
-        {
-            viewModel.openSideMenu(false)
-        }
     }
 
-    viewModel.setTopBarState(TopBarState.Home)
-
-    val noteList = viewModel.notes.collectAsState()
 
     Column {
 
-        AnimatedVisibility(noteList.value.notes.isEmpty()) {
+        AnimatedVisibility(noteList.isEmpty()) {
             Column(modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center){
@@ -67,12 +55,12 @@ fun HomePage(viewModel: TitanoteViewModel, navController: NavController,
                 )
             }
         }
-        AnimatedVisibility(noteList.value.notes.isNotEmpty()) {
+        AnimatedVisibility(noteList.isNotEmpty()) {
             LazyColumn( modifier = Modifier.padding(4.dp)) {
-                if(viewModel.searchState.value && viewModel.searchText.value != "")
+                if(searchState && searchText != "")
                 {
-                    noteList.value.notes.filter {
-                        it.title.lowercase().contains(viewModel.searchText.value.lowercase()) || it.content.lowercase().contains(viewModel.searchText.value.lowercase())
+                    noteList.filter {
+                        it.title.lowercase().contains(searchText.lowercase()) || it.content.lowercase().contains(searchText.lowercase())
                     }.forEach {
                             note->
                         item {
@@ -83,22 +71,20 @@ fun HomePage(viewModel: TitanoteViewModel, navController: NavController,
                                 date = note.date,
                                 logo = 0,
                                 edit = {
-                                    viewModel.setCurrentNote(note)
-                                    navController.navigate(Navigation.EDIT_NOTE)
+                                    onNoteEditClick(note)
                                 },
                                 delete = {
-                                    viewModel.deleteNote(note)
+                                    onNoteDeleteClick(note)
                                 })
                             {
-                                viewModel.setCurrentNote(note)
-                                navController.navigate(Navigation.PREVIEW_SCREEN)
+                                onNoteClick(note)
                             }
                         }
                     }
                 }
                 else
                 {
-                    noteList.value.notes.forEach { note ->
+                    noteList.forEach { note ->
                         item {
                             NoteCard(
                                 color = 0,
@@ -107,15 +93,13 @@ fun HomePage(viewModel: TitanoteViewModel, navController: NavController,
                                 date = note.date,
                                 logo = 0,
                                 edit = {
-                                    viewModel.setCurrentNote(note)
-                                    navController.navigate(Navigation.EDIT_NOTE)
+                                    onNoteEditClick(note)
                                 },
                                 delete = {
-                                    viewModel.deleteNote(note)
+                                    onNoteDeleteClick(note)
                                 })
                             {
-                                viewModel.setCurrentNote(note)
-                                navController.navigate(Navigation.PREVIEW_SCREEN)
+                                onNoteClick(note)
                             }
                         }
                     }

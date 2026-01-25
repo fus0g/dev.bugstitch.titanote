@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.data.NoteState
+import dev.bugstitch.titanote.domain.repository.PlatformUtils
 import dev.bugstitch.titanote.repository.NotesDatabaseRepository
 import dev.bugstitch.titanote.utils.CustomLog
 import dev.bugstitch.titanote.utils.TopBarState
@@ -20,7 +21,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlin.time.Clock
 
-class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseRepository) : ViewModel() {
+class TitanoteViewModel(
+    private val notesDatabaseRepository: NotesDatabaseRepository,
+    private val platformUtils: PlatformUtils
+) : ViewModel() {
 
     val notes:StateFlow<NoteState> = notesDatabaseRepository.getAllNotes().map { NoteState(it) }
         .stateIn(scope = viewModelScope,
@@ -182,6 +186,7 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
 
         viewModelScope.launch(Dispatchers.IO){
             notesDatabaseRepository.updateNote(newNote)
+            currentNote = newNote
         }
     }
 
@@ -197,6 +202,10 @@ class TitanoteViewModel(private val notesDatabaseRepository: NotesDatabaseReposi
         viewModelScope.launch(Dispatchers.IO) {
            // preferenceDatastore.updateAutosaveKey(!autosave.value!!)
         }
+    }
+
+    fun openUrl(url:String){
+        platformUtils.openUrl(url)
     }
 
 

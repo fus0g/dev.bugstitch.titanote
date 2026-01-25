@@ -21,22 +21,15 @@ import titanote.app.generated.resources.link
 import titanote.app.generated.resources.logo
 
 @Composable
-fun SideBarItem(logo:ImageVector,name:String,url:String)
+fun SideBarItem(logo:ImageVector,name:String,onClick:()->Unit)
 {
-    //val context = LocalContext.current
 
     val interactionSource = remember { MutableInteractionSource() }
 
     Row(modifier = Modifier.fillMaxWidth()
         .statusBarsPadding()
         .padding(start = 8.dp)
-        .clickable(onClick = {
-
-           // val urlIntent = Intent(
-            //    Intent.ACTION_VIEW,
-           //     Uri.parse(url))
-           // context.startActivity(urlIntent)
-        }, indication = null,
+        .clickable(onClick = onClick, indication = null,
             interactionSource = interactionSource,
             onClickLabel = "$name ${stringResource(Res.string.link)}") ,
         verticalAlignment = Alignment.CenterVertically) {

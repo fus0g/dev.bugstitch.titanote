@@ -5,10 +5,12 @@ datastorePreferences = "1.2.0"
 hiltAndroid = "2.57.2"
 iconsLucide = "1.1.0"
 kotlin = "2.3.0"
+kotlinxSerializationJson = "1.10.0"
 roomRuntime = "2.8.4"
 koin = "4.1.1"
 room = "2.8.4"
 sqlite = "2.6.2"
+serialization = "2.3.0"
 
 #kmp
 composeHotReload = "1.0.0"
@@ -43,6 +45,7 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
 
 #Navigation
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 compose-backhandler = {module = "org.jetbrains.compose.ui:ui-backhandler",version.ref="composeMultiplatform"}
 
@@ -65,3 +68,4 @@ composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "com
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
