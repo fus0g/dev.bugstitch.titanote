@@ -66,11 +66,12 @@ fun NoteCard(
                 RichText(state = richTextState, maxLines = 5,
                     color = ZenColors.Night,
                     fontSize = 12.sp,
-                    modifier = Modifier.padding(top = 8.dp))
+                    modifier = Modifier.padding(top = 8.dp, start = 8.dp))
             }
             Column {
 
-                Row(modifier = Modifier.fillMaxWidth(),
+                Row(modifier = Modifier.fillMaxWidth()
+                    .padding(start = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically) {
                     Text(text = date.formatForUi(),

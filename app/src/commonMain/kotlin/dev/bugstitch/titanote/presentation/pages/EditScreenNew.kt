@@ -18,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -88,6 +89,23 @@ fun EditScreenNew(
         mutableStateOf<TextLayoutResult?>(null)
     }
     val bottomPaddingPx = with(LocalDensity.current) { 1000.dp.toPx() }
+
+    val currentParagraphStyle = state.currentParagraphStyle
+    val currentSpanStyle = state.currentSpanStyle
+
+    val isAlignLeft = currentParagraphStyle.textAlign == TextAlign.Left
+    val isAlignCenter = currentParagraphStyle.textAlign == TextAlign.Center
+    val isAlignRight = currentParagraphStyle.textAlign == TextAlign.Right
+    val isAlignJustify = currentParagraphStyle.textAlign == TextAlign.Justify
+
+    val isBold = remember { mutableStateOf(false)}
+    val isItalic = remember { mutableStateOf(false)}
+    val isUnderline = remember { mutableStateOf(false)}
+    val isStrike = remember { mutableStateOf(false)}
+
+    val isOrderedList = state.isOrderedList
+    val isUnorderedList = state.isUnorderedList
+
 
     LaunchedEffect(state.toMarkdown()){
         addToViewModel(state.toMarkdown())
@@ -196,42 +214,50 @@ fun EditScreenNew(
                 item {
                     IconButton(
                         onClick = {
-                            state.toggleParagraphStyle(paragraphStyle = ParagraphStyle(TextAlign.Left))
+                            state.toggleParagraphStyle(ParagraphStyle(TextAlign.Left))
                         },
+                        colors = toolbarIconColors(isAlignLeft),
                         modifier = Modifier.padding(horizontal = 4.dp)
                     ) {
-                        Icon(Lucide.AlignLeft,"")
+                        Icon(Lucide.AlignLeft, null)
                     }
+
                 }
                 item {
                     IconButton(
                         onClick = {
-                            state.toggleParagraphStyle(paragraphStyle = ParagraphStyle(TextAlign.Center))
+                            state.toggleParagraphStyle(ParagraphStyle(TextAlign.Center))
                         },
+                        colors = toolbarIconColors(isAlignCenter),
                         modifier = Modifier.padding(horizontal = 4.dp)
                     ) {
-                        Icon(Lucide.AlignCenter,"")
+                        Icon(Lucide.AlignCenter, null)
                     }
+
                 }
                 item {
                     IconButton(
                         onClick = {
-                            state.toggleParagraphStyle(paragraphStyle = ParagraphStyle(TextAlign.Right))
+                            state.toggleParagraphStyle(ParagraphStyle(TextAlign.Right))
                         },
+                        colors = toolbarIconColors(isAlignRight),
                         modifier = Modifier.padding(horizontal = 4.dp)
                     ) {
-                        Icon(Lucide.AlignRight,"")
+                        Icon(Lucide.AlignRight, null)
                     }
+
                 }
                 item {
                     IconButton(
                         onClick = {
-                            state.toggleParagraphStyle(paragraphStyle = ParagraphStyle(TextAlign.Justify))
+                            state.toggleParagraphStyle(ParagraphStyle(TextAlign.Justify))
                         },
+                        colors = toolbarIconColors(isAlignJustify),
                         modifier = Modifier.padding(horizontal = 4.dp)
                     ) {
-                        Icon(Lucide.AlignJustify,"")
+                        Icon(Lucide.AlignJustify, null)
                     }
+
                 }
                 item {
                     Spacer(modifier = Modifier.height(32.dp)
@@ -241,41 +267,55 @@ fun EditScreenNew(
                 item {
                     IconButton(
                         onClick = {
-                            state.toggleSpanStyle(spanStyle = SpanStyle(fontWeight = FontWeight.Bold))
+                            isBold.value = !isBold.value
+                            state.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
                         },
+                        colors = toolbarIconColors(isBold.value),
                         modifier = Modifier.padding(horizontal = 4.dp)
                     ) {
-                        Icon(Lucide.Bold,"")
+                        Icon(Lucide.Bold, null)
+                    }
+
+                }
+                item {
+                    IconButton(
+                        onClick = {
+                            isItalic.value = !isItalic.value
+                            state.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
+                        },
+                        colors = toolbarIconColors(isItalic.value),
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    ) {
+                        Icon(Lucide.Italic, null)
+                    }
+
+                }
+                item {
+                    IconButton(
+                        onClick = {
+                            isUnderline.value = !isUnderline.value
+                            state.toggleSpanStyle(
+                                SpanStyle(textDecoration = TextDecoration.Underline)
+                            )
+                        },
+                        colors = toolbarIconColors(isUnderline.value),
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    ) {
+                        Icon(Lucide.Underline, null)
                     }
                 }
                 item {
                     IconButton(
                         onClick = {
-                            state.toggleSpanStyle(spanStyle = SpanStyle(fontStyle = FontStyle.Italic))
+                            isStrike.value = !isStrike.value
+                            state.toggleSpanStyle(
+                                SpanStyle(textDecoration = TextDecoration.LineThrough)
+                            )
                         },
+                        colors = toolbarIconColors(isStrike.value),
                         modifier = Modifier.padding(horizontal = 4.dp)
                     ) {
-                        Icon(Lucide.Italic,"")
-                    }
-                }
-                item {
-                    IconButton(
-                        onClick = {
-                            state.toggleSpanStyle(spanStyle = SpanStyle(textDecoration = TextDecoration.Underline))
-                        },
-                        modifier = Modifier.padding(horizontal = 4.dp)
-                    ) {
-                        Icon(Lucide.Underline,"")
-                    }
-                }
-                item {
-                    IconButton(
-                        onClick = {
-                            state.toggleSpanStyle(spanStyle = SpanStyle(textDecoration = TextDecoration.LineThrough))
-                        },
-                        modifier = Modifier.padding(horizontal = 4.dp)
-                    ) {
-                        Icon(Lucide.Strikethrough,"")
+                        Icon(Lucide.Strikethrough, null)
                     }
                 }
                 item {
@@ -285,26 +325,39 @@ fun EditScreenNew(
                 }
                 item {
                     IconButton(
-                        onClick = {
-                            state.toggleOrderedList()
-                        },
+                        onClick = { state.toggleOrderedList() },
+                        colors = toolbarIconColors(isOrderedList),
                         modifier = Modifier.padding(horizontal = 4.dp)
                     ) {
-                        Icon(Lucide.ListOrdered,"")
+                        Icon(Lucide.ListOrdered, null)
                     }
+
                 }
                 item {
                     IconButton(
-                        onClick = {
-                            state.toggleUnorderedList()
-                        },
+                        onClick = { state.toggleUnorderedList() },
+                        colors = toolbarIconColors(isUnorderedList),
                         modifier = Modifier.padding(horizontal = 4.dp)
                     ) {
-                        Icon(Lucide.List,"")
+                        Icon(Lucide.List, null)
                     }
+
                 }
 
             }
         }
     }
 }
+
+@Composable
+private fun toolbarIconColors(isActive: Boolean) =
+    IconButtonDefaults.iconButtonColors(
+        containerColor = if (isActive)
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
+        else
+            Color.Transparent,
+        contentColor = if (isActive)
+            MaterialTheme.colorScheme.primary
+        else
+            MaterialTheme.colorScheme.onSurface
+    )

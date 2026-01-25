@@ -89,9 +89,9 @@ fun SideBar(viewModel: TitanoteViewModel,
                         Column {
                             Column(modifier = Modifier.padding(bottom = 16.dp)) {
                                 AnimatedVisibility(autosave.value != null) {
-                                    SideBarPreference(Lucide.Save, stringResource(Res.string.autosave),autosave.value!!) {
-                                        viewModel.updateAutoSavePreference()
-                                    }
+                                  //  SideBarPreference(Lucide.Save, stringResource(Res.string.autosave),autosave.value!!) {
+                                  //      viewModel.updateAutoSavePreference()
+                                  //  }
                                 }
                             }
                             Text("${stringResource(Res.string.version)} ${CommonBuildConfig.VERSION_NAME}",
