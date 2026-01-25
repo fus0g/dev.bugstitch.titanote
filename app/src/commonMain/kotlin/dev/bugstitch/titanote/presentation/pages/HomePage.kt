@@ -38,9 +38,12 @@ import titanote.app.generated.resources.no_notes
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun HomePage(viewModel: TitanoteViewModel, navController: NavController) {
+fun HomePage(viewModel: TitanoteViewModel, navController: NavController,
+             onBack:()->Unit
+) {
 
     BackHandler {
+        onBack()
         if(viewModel.sideMenuOpen.value)
         {
             viewModel.openSideMenu(false)
@@ -51,77 +54,68 @@ fun HomePage(viewModel: TitanoteViewModel, navController: NavController) {
 
     val noteList = viewModel.notes.collectAsState()
 
-    Scaffold(topBar = {
-        TopBar(viewModel)
-    },
-        floatingActionButton = {
-            AddButton(Lucide.Plus) {
-                navController.navigate(Navigation.CREATE_NOTE)
-            }
-    } ) {
-        Column(modifier = Modifier.padding(it)) {
+    Column {
 
-            AnimatedVisibility(noteList.value.notes.isEmpty()) {
-                Column(modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center){
-                    Icon(Lucide.Beer, contentDescription = stringResource(Res.string.beerJar), modifier = Modifier.size(90.dp)
-                        .padding(bottom = 20.dp))
-                    Text(stringResource(Res.string.no_notes),
-                        fontSize = 20.sp,
-                    )
-                }
+        AnimatedVisibility(noteList.value.notes.isEmpty()) {
+            Column(modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center){
+                Icon(Lucide.Beer, contentDescription = stringResource(Res.string.beerJar), modifier = Modifier.size(90.dp)
+                    .padding(bottom = 20.dp))
+                Text(stringResource(Res.string.no_notes),
+                    fontSize = 20.sp,
+                )
             }
-            AnimatedVisibility(noteList.value.notes.isNotEmpty()) {
-                LazyColumn( modifier = Modifier.padding(4.dp)) {
-                    if(viewModel.searchState.value && viewModel.searchText.value != "")
-                    {
-                        noteList.value.notes.filter {
-                            it.title.lowercase().contains(viewModel.searchText.value.lowercase()) || it.content.lowercase().contains(viewModel.searchText.value.lowercase())
-                        }.forEach {
+        }
+        AnimatedVisibility(noteList.value.notes.isNotEmpty()) {
+            LazyColumn( modifier = Modifier.padding(4.dp)) {
+                if(viewModel.searchState.value && viewModel.searchText.value != "")
+                {
+                    noteList.value.notes.filter {
+                        it.title.lowercase().contains(viewModel.searchText.value.lowercase()) || it.content.lowercase().contains(viewModel.searchText.value.lowercase())
+                    }.forEach {
                             note->
-                            item {
-                                NoteCard(
-                                    color = 0,
-                                    title = note.title,
-                                    content = note.content,
-                                    date = note.date,
-                                    logo = 0,
-                                    edit = {
-                                        viewModel.setCurrentNote(note)
-                                        navController.navigate(Navigation.EDIT_NOTE)
-                                    },
-                                    delete = {
-                                        viewModel.deleteNote(note)
-                                    })
-                                {
+                        item {
+                            NoteCard(
+                                color = 0,
+                                title = note.title,
+                                content = note.content,
+                                date = note.date,
+                                logo = 0,
+                                edit = {
                                     viewModel.setCurrentNote(note)
-                                    navController.navigate(Navigation.PREVIEW_SCREEN)
-                                }
+                                    navController.navigate(Navigation.EDIT_NOTE)
+                                },
+                                delete = {
+                                    viewModel.deleteNote(note)
+                                })
+                            {
+                                viewModel.setCurrentNote(note)
+                                navController.navigate(Navigation.PREVIEW_SCREEN)
                             }
                         }
                     }
-                    else
-                    {
-                        noteList.value.notes.forEach { note ->
-                            item {
-                                NoteCard(
-                                    color = 0,
-                                    title = note.title,
-                                    content = note.content,
-                                    date = note.date,
-                                    logo = 0,
-                                    edit = {
-                                        viewModel.setCurrentNote(note)
-                                        navController.navigate(Navigation.EDIT_NOTE)
-                                    },
-                                    delete = {
-                                        viewModel.deleteNote(note)
-                                    })
-                                {
+                }
+                else
+                {
+                    noteList.value.notes.forEach { note ->
+                        item {
+                            NoteCard(
+                                color = 0,
+                                title = note.title,
+                                content = note.content,
+                                date = note.date,
+                                logo = 0,
+                                edit = {
                                     viewModel.setCurrentNote(note)
-                                    navController.navigate(Navigation.PREVIEW_SCREEN)
-                                }
+                                    navController.navigate(Navigation.EDIT_NOTE)
+                                },
+                                delete = {
+                                    viewModel.deleteNote(note)
+                                })
+                            {
+                                viewModel.setCurrentNote(note)
+                                navController.navigate(Navigation.PREVIEW_SCREEN)
                             }
                         }
                     }
@@ -129,5 +123,4 @@ fun HomePage(viewModel: TitanoteViewModel, navController: NavController) {
             }
         }
     }
-    SideBar(viewModel)
 }

@@ -31,7 +31,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -59,21 +61,25 @@ import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditorDefaults
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun EditScreenNew(
-    onSaveClick:(title: String, content: String)-> Unit,
-    currentTitle:String = "",
-    currentContent:String = ""
+    addToViewModel:(content: String)-> Unit,
+    currentTitle:String,
+    onTitleChange:(String)->Unit,
+    currentContent:String = "",
+    onBack:()->Unit
 ){
-
-    val title = remember { mutableStateOf(currentTitle) }
     val state = rememberRichTextState()
 
     LaunchedEffect(currentContent) {
         if (state.toMarkdown().isEmpty()) {
             state.setMarkdown(currentContent)
         }
+    }
+
+    BackHandler {
+        onBack()
     }
 
 
@@ -87,26 +93,19 @@ fun EditScreenNew(
     }
     val bottomPaddingPx = with(LocalDensity.current) { 1000.dp.toPx() }
 
+    LaunchedEffect(state.toMarkdown()){
+        addToViewModel(state.toMarkdown())
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
             .verticalScroll(scrollState)
             .imePadding()
     ) {
-        Button(
-            onClick = {
-                onSaveClick(title.value, state.toMarkdown())
-            }
-        ){
-            Text("save")
-        }
-
         BasicTextField(
-            value = title.value,
-            onValueChange = { title.value = it },
+            value = currentTitle,
+            onValueChange = { onTitleChange(it) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
@@ -116,7 +115,7 @@ fun EditScreenNew(
             ),
             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
             decorationBox = { innerTextField ->
-                if (title.value.isEmpty()) {
+                if (currentTitle.isEmpty()) {
                     Text(
                         "Title...",
                         style = MaterialTheme.typography.headlineMedium.copy(
@@ -180,7 +179,6 @@ fun EditScreenNew(
     Column(
         modifier = Modifier.fillMaxSize()
             .imePadding()
-            .navigationBarsPadding()
     ) {
         Spacer(modifier = Modifier.weight(1f))
 
@@ -196,7 +194,6 @@ fun EditScreenNew(
             LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .navigationBarsPadding()
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

@@ -86,34 +86,5 @@ fun EditScreen(viewModel: TitanoteViewModel, navController: NavController) {
             }
         }
     }
-    Scaffold(topBar = {
-        TopBar(viewModel)
-    },
-        floatingActionButton = {
-                AddButton(Lucide.Save) {
-                    if(!viewModel.checkEmpty())
-                    {
-                        viewModel.updateCurrentNote()
-                        if(navController.previousBackStackEntry?.destination?.route == Navigation.PREVIEW_SCREEN)
-                        {
-                            navController.navigate(Navigation.PREVIEW_SCREEN)
-                        }else{
-                            navController.navigate(Navigation.HOME)
-                            viewModel.emptyCurrent()
-                            viewModel.nullCurrentNote()
-                        }
-                    }
-                    else{
-                    //Toast.makeText(context, context.getString(R.string.should_not_be_empty), Toast.LENGTH_SHORT).show()
-                    }
-                }
-        },
-        modifier = Modifier.imePadding()) { innerPadding ->
-
-        EditComponent(modifier = Modifier.padding(innerPadding),
-            viewModel)
-
-    }
-    SideBar(viewModel)
-
+    EditComponent(modifier = Modifier.padding(), viewModel)
 }

@@ -55,7 +55,8 @@ import dev.bugstitch.titanote.utils.formatForUi
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PreviewScreen(
-    note: Note
+    note: Note,
+    onBack:()-> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -63,6 +64,9 @@ fun PreviewScreen(
 
     LaunchedEffect(note.content){
         richTextState.setMarkdown(note.content)
+    }
+    BackHandler {
+        onBack()
     }
 
     Column(modifier = Modifier

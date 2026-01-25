@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dev.bugstitch.titanote.presentation.components.TopBar
 import dev.bugstitch.titanote.presentation.components.startPage.Animal
 import dev.bugstitch.titanote.presentation.components.startPage.Landing
 import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
@@ -34,46 +35,53 @@ fun StartPage(viewModel: TitanoteViewModel){
 
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Navigation.startPage.START){
+    Scaffold(
+    ) {contentPadding->
+        Column(modifier = Modifier.padding(contentPadding)) {
 
-        composable(Navigation.startPage.START) {
-            Landing(navController)
-        }
-        composable(Navigation.startPage.ANIMAL) {
-            Animal(navController)
-        }
-        composable(Navigation.startPage.PASSWORD) {
-                Scaffold(
-                    bottomBar = {
-                        Column(modifier = Modifier.navigationBarsPadding()
-                            .fillMaxWidth()
-                            .padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            NavHost(navController = navController, startDestination = Navigation.startPage.START){
 
-                            Button(onClick = {
-
-                            },modifier = Modifier.fillMaxWidth(), enabled = false) {
-                                Text("Done")
-                            }
-
-                        }
-                    }
-                ){innerPadding->
-
-                    Column(Modifier
-                        .padding(innerPadding)
-                        .fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Enter a strong password")
-                        OutlinedTextField(value = "Cat", onValueChange = {},
-                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password),)
-                        OutlinedTextField(value = "Cat", onValueChange = {},
-                            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password),)
-                    }
-
+                composable(Navigation.startPage.START) {
+                    Landing(navController)
                 }
+                composable(Navigation.startPage.ANIMAL) {
+                    Animal(navController)
+                }
+                composable(Navigation.startPage.PASSWORD) {
+                    Scaffold(
+                        bottomBar = {
+                            Column(modifier = Modifier.navigationBarsPadding()
+                                .fillMaxWidth()
+                                .padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+
+                                Button(onClick = {
+
+                                },modifier = Modifier.fillMaxWidth(), enabled = false) {
+                                    Text("Done")
+                                }
+
+                            }
+                        }
+                    ){innerPadding->
+
+                        Column(Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Enter a strong password")
+                            OutlinedTextField(value = "Cat", onValueChange = {},
+                                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password),)
+                            OutlinedTextField(value = "Cat", onValueChange = {},
+                                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password),)
+                        }
+
+                    }
+                }
+            }
         }
     }
+
 
 
 

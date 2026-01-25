@@ -84,19 +84,5 @@ fun CreateNote(viewModel: TitanoteViewModel, navController: NavController)
         }
 
     }
-    Scaffold(topBar = {
-        TopBar(viewModel)
-    },
-        floatingActionButton = {
-            AddButton(Lucide.Save) {
-                navController.navigate(Navigation.HOME)
-                viewModel.addNote()
-            }
-        },
-        modifier = Modifier.imePadding()) { innerPadding ->
-
-        EditComponent(modifier = Modifier.padding(innerPadding), viewModel)
-
-    }
-    SideBar(viewModel)
+    EditComponent(modifier = Modifier.padding(), viewModel)
 }

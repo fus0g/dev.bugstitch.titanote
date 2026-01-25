@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Menu
+import com.composables.icons.lucide.Save
 import com.composables.icons.lucide.Search
 import com.composables.icons.lucide.Trash
 import com.composables.icons.lucide.X
@@ -43,10 +44,17 @@ import titanote.app.generated.resources.sidebar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
-
-    val colorScrollState = rememberScrollState()
-    val logoScrollState = rememberScrollState()
+fun TopBar(
+    topBarState: TopBarState,
+    searchState: Boolean,
+    onSearchButtonPressed:()->Unit,
+    onSearchValueChange:(String)->Unit,
+    searchValue:String,
+    onDelete: () -> Unit = {},
+    onSideBarButtonPress:()->Unit,
+    onSavePress:()->Unit,
+    onUpdatePressed:()->Unit
+){
 
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -54,13 +62,11 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
         TopAppBar(title = { Text(stringResource(Res.string.app_name),
             fontWeight = FontWeight.Bold) },
             actions = {
-                when(viewModel.topBarState.value)
+                when(topBarState)
                 {
                     TopBarState.Home ->{
-                        IconButton(onClick = {
-                            viewModel.setSearchState(!viewModel.searchState.value)
-                        }) {
-                            if(!viewModel.searchState.value)
+                        IconButton(onClick = onSearchButtonPressed) {
+                            if(!searchState)
                             {
                                 Icon(Lucide.Search, contentDescription = stringResource(Res.string.search))
                             }else{
@@ -69,20 +75,24 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
                         }
                     }
                     TopBarState.Create -> {
-                        ColorButton(
-                            color = viewModel.noteColor.value,
-                        ) {
-                                viewModel.setSelectColorState(!viewModel.selectColorState.value)
+                        IconButton(onClick ={
+                            onSavePress()
+                        }) {
+                            Icon(Lucide.Save, contentDescription = stringResource(Res.string.delete))
+                        }
+                    }
+                    TopBarState.Edit -> {
+                        IconButton(onClick ={
+                            onUpdatePressed()
+                        }) {
+                            Icon(Lucide.Save, contentDescription = stringResource(Res.string.delete))
                         }
                     }
                     TopBarState.Preview -> {
 
-                        IconButton(onClick = {if(viewModel.getCurrentNote() != null){
+                        IconButton(onClick ={
                             onDelete()
-                            viewModel.deleteNote(viewModel.getCurrentNote() as Note)
-                            viewModel.emptyCurrent()
-                            viewModel.nullCurrentNote()
-                        } }) {
+                        }) {
                             Icon(Lucide.Trash, contentDescription = stringResource(Res.string.delete))
                         }
 
@@ -91,56 +101,20 @@ fun TopBar(viewModel: TitanoteViewModel, onDelete: () -> Unit = {}){
             },
             navigationIcon = {
                 IconButton(onClick = {
-                    viewModel.openSideMenu(true)
+                    onSideBarButtonPress()
                 }) { Icon(Lucide.Menu, contentDescription = stringResource(Res.string.sidebar)) }
 
             })
-       AnimatedVisibility(viewModel.searchState.value && viewModel.topBarState.value == TopBarState.Home, enter = expandVertically()) {
+       AnimatedVisibility(searchState && topBarState == TopBarState.Home, enter = expandVertically()) {
            Row(modifier = Modifier
                .fillMaxWidth()
                .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)){
-               OutlinedTextField(modifier = Modifier.fillMaxWidth(),value = viewModel.searchText.value,
+               OutlinedTextField(modifier = Modifier.fillMaxWidth(),value = searchValue,
                    onValueChange = {
-                       viewModel.setSearchText(it)
+                     onSearchValueChange(it)
                    },
                    placeholder = { Text(stringResource(Res.string.search)) })
            }
        }
-        AnimatedVisibility(viewModel.selectColorState.value
-                && viewModel.topBarState.value == TopBarState.Create, enter = expandVertically()){
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)
-                    .horizontalScroll(enabled = true, state = colorScrollState)
-            ) {
-                for(i in 0 until ZenColors.NoteColors.colorList.size){
-                    ColorButton(
-                        modifier = Modifier.size(48.dp),
-                        color = i) {
-                        viewModel.setNoteColor(i)
-                    }
-                }
-            }
-        }
-        AnimatedVisibility(viewModel.selectNoteLogoState.value && viewModel.topBarState.value == TopBarState.Create, enter = expandVertically(expandFrom = Alignment.Bottom)){
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)
-                    .horizontalScroll(enabled = true, state = logoScrollState)
-            ) {
-                for(i in Logos.indices){
-                    LogoButton(
-                        modifier = Modifier.size(48.dp),
-                        icon = Logos[i],
-                        contentDescription = LogoString[i],
-                        static = false,
-                        size = 32.dp) {
-                        viewModel.setNoteLogo(i)
-                    }
-                }
-            }
-        }
     }
 }
