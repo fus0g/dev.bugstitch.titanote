@@ -13,5 +13,6 @@ fun getNotesDatabase(context: Context): NotesDatabase {
         name = dbFile.absolutePath
     )
         .setDriver(BundledSQLiteDriver())
+        .addMigrations(Migration_3_4)
         .build()
 }
