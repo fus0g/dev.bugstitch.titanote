@@ -1,8 +1,8 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-val version:String = "1.2.0"
-val versionCode = 14
+val version:String = "1.3.0"
+val versionCode = 15
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -123,8 +123,8 @@ android {
         applicationId = "dev.bugstitch.titanote"
         minSdk = 25
         targetSdk = 35
-        versionCode = 14
-        versionName = "1.2.0"
+        versionCode = 15
+        versionName = "1.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
