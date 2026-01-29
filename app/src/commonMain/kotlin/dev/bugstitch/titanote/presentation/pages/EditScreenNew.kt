@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -57,21 +58,25 @@ import com.composables.icons.lucide.Underline
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditorDefaults
+import dev.bugstitch.titanote.presentation.components.TopBar
+import dev.bugstitch.titanote.utils.TopBarState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun EditScreenNew(
     addToViewModel:(content: String)-> Unit,
-    currentTitle:String,
+    receivedId:Int? = null,
+    receivedContent:String? = null,
+    title: String,
     onTitleChange:(String)->Unit,
-    currentContent:String = "",
-    onBack:()->Unit
+    onBack:()->Unit,
+    onSavePressed:(id:Int?) -> Unit
 ){
     val state = rememberRichTextState()
 
-    LaunchedEffect(currentContent) {
-        if (state.toMarkdown().isEmpty()) {
-            state.setMarkdown(currentContent)
+    LaunchedEffect(receivedContent) {
+        if (state.toMarkdown().isEmpty() && !receivedContent.isNullOrEmpty()) {
+            state.setMarkdown(receivedContent)
         }
     }
 
@@ -91,7 +96,6 @@ fun EditScreenNew(
     val bottomPaddingPx = with(LocalDensity.current) { 1000.dp.toPx() }
 
     val currentParagraphStyle = state.currentParagraphStyle
-    val currentSpanStyle = state.currentSpanStyle
 
     val isAlignLeft = currentParagraphStyle.textAlign == TextAlign.Left
     val isAlignCenter = currentParagraphStyle.textAlign == TextAlign.Center
@@ -110,85 +114,100 @@ fun EditScreenNew(
     LaunchedEffect(state.toMarkdown()){
         addToViewModel(state.toMarkdown())
     }
+    Scaffold(
+        topBar = {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .imePadding()
-    ) {
-        BasicTextField(
-            value = currentTitle,
-            onValueChange = { onTitleChange(it) },
+                TopBar(
+                    topBarState = TopBarState.Create,
+                    onSavePress = {
+                        addToViewModel(state.toMarkdown())
+                        onSavePressed(receivedId)
+                    },
+                    onBackPressed = {onBack()}
+                )
+        }
+    ) { innerPadding->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            textStyle = MaterialTheme.typography.headlineMedium.copy(
-                fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.onSurface
-            ),
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-            decorationBox = { innerTextField ->
-                if (currentTitle.isEmpty()) {
-                    Text(
-                        "Title...",
-                        style = MaterialTheme.typography.headlineMedium.copy(
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.Gray
+                .padding(innerPadding)
+                .padding(top = 8.dp)
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .imePadding()
+        ) {
+            BasicTextField(
+                value = title,
+                onValueChange = { onTitleChange(it) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                textStyle = MaterialTheme.typography.headlineMedium.copy(
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                ),
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                decorationBox = { innerTextField ->
+                    if (title.isEmpty()) {
+                        Text(
+                            "Title...",
+                            style = MaterialTheme.typography.headlineMedium.copy(
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.Gray
+                            )
                         )
-                    )
-                }
-                innerTextField()
-            },
-        )
-
-        LaunchedEffect(state.selection, editorFocused) {
-            if (!editorFocused) return@LaunchedEffect
-
-            val layout = textLayoutResult ?: return@LaunchedEffect
-
-            kotlinx.coroutines.delay(16)
-
-            val textLength = layout.layoutInput.text.text.length
-            if (textLength == 0) return@LaunchedEffect
-
-            val safeOffset = state.selection.end.coerceIn(0, textLength)
-
-            val cursorRect = layout.getCursorRect(safeOffset)
-
-            val paddedRect = cursorRect.copy(
-                bottom = cursorRect.bottom + bottomPaddingPx
+                    }
+                    innerTextField()
+                },
             )
 
-            bringIntoViewRequester.bringIntoView(paddedRect)
+            LaunchedEffect(state.selection, editorFocused) {
+                if (!editorFocused) return@LaunchedEffect
+
+                val layout = textLayoutResult ?: return@LaunchedEffect
+
+                kotlinx.coroutines.delay(16)
+
+                val textLength = layout.layoutInput.text.text.length
+                if (textLength == 0) return@LaunchedEffect
+
+                val safeOffset = state.selection.end.coerceIn(0, textLength)
+
+                val cursorRect = layout.getCursorRect(safeOffset)
+
+                val paddedRect = cursorRect.copy(
+                    bottom = cursorRect.bottom + bottomPaddingPx
+                )
+
+                bringIntoViewRequester.bringIntoView(paddedRect)
+            }
+
+
+            RichTextEditor(
+                state = state,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 50.dp)
+                    .onFocusEvent {
+                        editorFocused = it.isFocused
+                    }
+                    .bringIntoViewRequester(bringIntoViewRequester),
+                colors = RichTextEditorDefaults.richTextEditorColors(
+                    containerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
+                ),
+                textStyle = MaterialTheme.typography.bodyLarge,
+                placeholder = {
+                    Text("Write something...",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color.Gray
+                        ))
+                },
+                onTextLayout = {textLayoutResult = it},
+            )
+            Spacer(Modifier.height(30.dp))
         }
-
-
-        RichTextEditor(
-            state = state,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 50.dp)
-                .onFocusEvent {
-                    editorFocused = it.isFocused
-                }
-                .bringIntoViewRequester(bringIntoViewRequester),
-            colors = RichTextEditorDefaults.richTextEditorColors(
-                containerColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            ),
-            textStyle = MaterialTheme.typography.bodyLarge,
-            placeholder = {
-                Text("Write something...",
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        color = Color.Gray
-                    ))
-            },
-            onTextLayout = {textLayoutResult = it},
-        )
-        Spacer(Modifier.height(30.dp))
     }
     Column(
         modifier = Modifier.fillMaxSize()

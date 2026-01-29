@@ -1,5 +1,5 @@
 package dev.bugstitch.titanote.utils
 
 enum class TopBarState {
-    Home,Create,Preview,Edit
+    Home,Create,Preview
 }

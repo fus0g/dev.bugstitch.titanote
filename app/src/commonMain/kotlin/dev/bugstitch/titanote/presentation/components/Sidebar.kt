@@ -18,32 +18,27 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Lucide
-import com.composables.icons.lucide.Save
 import com.composables.icons.lucide.X
 import dev.bugstitch.titanote.CommonBuildConfig
-import dev.bugstitch.titanote.presentation.viewmodels.TitanoteViewModel
 import dev.bugstitch.titanote.utils.sideBarItems
 import org.jetbrains.compose.resources.stringResource
 import titanote.app.generated.resources.Res
 import titanote.app.generated.resources.app_name
-import titanote.app.generated.resources.autosave
 import titanote.app.generated.resources.close
 import titanote.app.generated.resources.version
 
 @Composable
-fun SideBar(viewModel: TitanoteViewModel,
+fun SideBar(isOpen: Boolean,
+            onCloseClick:()-> Unit,
             onUrlClick:(String) -> Unit){
 
-    val autosave = viewModel.autosave.collectAsState()
-
-    AnimatedVisibility(viewModel.sideMenuOpen.value,
+    AnimatedVisibility(isOpen,
         enter = expandHorizontally(),
         exit = shrinkHorizontally()
     ) {
@@ -66,7 +61,7 @@ fun SideBar(viewModel: TitanoteViewModel,
                         fontWeight = FontWeight.Bold
                     )
 
-                    IconButton(onClick = {viewModel.openSideMenu(false)}) {
+                    IconButton(onClick = onCloseClick) {
                         Icon(Lucide.X, contentDescription = stringResource(Res.string.close), tint = MaterialTheme.colorScheme.onBackground)
                     }
                 }
@@ -88,11 +83,7 @@ fun SideBar(viewModel: TitanoteViewModel,
                     Row(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
                         Column {
                             Column(modifier = Modifier.padding(bottom = 16.dp)) {
-                                AnimatedVisibility(autosave.value != null) {
-                                  //  SideBarPreference(Lucide.Save, stringResource(Res.string.autosave),autosave.value!!) {
-                                  //      viewModel.updateAutoSavePreference()
-                                  //  }
-                                }
+
                             }
                             Text("${stringResource(Res.string.version)} ${CommonBuildConfig.VERSION_NAME}",
                                 color = MaterialTheme.colorScheme.onSurface,

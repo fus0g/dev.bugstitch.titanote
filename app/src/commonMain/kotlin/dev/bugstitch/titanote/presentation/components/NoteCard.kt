@@ -26,7 +26,6 @@ import com.composables.icons.lucide.Pen
 import com.composables.icons.lucide.Trash
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichText
-import dev.bugstitch.titanote.presentation.theme.ZenColors
 import dev.bugstitch.titanote.utils.formatForUi
 import org.jetbrains.compose.resources.stringResource
 import titanote.app.generated.resources.Res
@@ -59,12 +58,10 @@ fun NoteCard(
                 Row(verticalAlignment = Alignment.CenterVertically){
                     Text(modifier = Modifier.padding(start = 8.dp),text = title, maxLines = 1,
                         fontWeight = FontWeight.Bold,
-                        color = ZenColors.Night,
                         fontSize = 24.sp
                     )
                 }
                 RichText(state = richTextState, maxLines = 5,
-                    color = ZenColors.Night,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(top = 8.dp, start = 8.dp))
             }
@@ -82,13 +79,11 @@ fun NoteCard(
 
                         IconButton(onClick = delete) {
                             Icon(Lucide.Trash, contentDescription = stringResource(Res.string.delete),
-                                modifier = Modifier.size(18.dp),
-                                tint = ZenColors.Night)
+                                modifier = Modifier.size(18.dp))
                         }
                         IconButton(onClick = edit) {
                             Icon(Lucide.Pen, contentDescription = stringResource(Res.string.edit),
-                                modifier = Modifier.size(18.dp),
-                                tint = ZenColors.Night)
+                                modifier = Modifier.size(18.dp))
                         }
                     }
                 }

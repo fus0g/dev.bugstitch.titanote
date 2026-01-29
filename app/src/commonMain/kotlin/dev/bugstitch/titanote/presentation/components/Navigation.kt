@@ -14,7 +14,7 @@ data class PreviewRoute(
 )
 
 @Serializable
-data class EditScreen(
+data class CreateScreenRoute(
     val id:Int,
     var title:String,
     var content:String,

@@ -9,7 +9,7 @@ class TaskRepositoryImpl(
     private val taskDao: TaskDao
 ): TaskRepository {
 
-    override suspend fun getAllTasks(): Flow<List<Task>> {
+    override fun getAllTasks(): Flow<List<Task>> {
         return taskDao.getAllTasks()
     }
 

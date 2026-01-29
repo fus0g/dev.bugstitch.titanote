@@ -1,5 +1,6 @@
 package dev.bugstitch.titanote.data.room
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -8,6 +9,7 @@ import dev.bugstitch.titanote.data.database.Task
 import dev.bugstitch.titanote.utils.Constants
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface TaskDao {
 
     @Query("SELECT * FROM ${Constants.TASK_TABLE_NAME}")
