@@ -6,12 +6,12 @@ val versionCode = 15
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidx.room)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.androidx.room)
     alias(libs.plugins.kotlinSerialization)
 }
 kotlin {
@@ -23,6 +23,10 @@ kotlin {
     jvm()
 
     sourceSets {
+
+        val jvmMain by getting {
+            kotlin.srcDir("build/generated/ksp/jvm/jvmMain/kotlin")
+        }
 
         val commonMain by getting {
             kotlin.srcDir("build/generated/commonMain")
@@ -56,6 +60,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+            api(libs.koin.annotation)
 
             //navigation
             implementation(libs.navigation.compose)
@@ -80,6 +85,10 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+        }
+
+        sourceSets.named("commonMain").configure {
+            kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
         }
 
     }
@@ -153,7 +162,11 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+    add("kspCommonMainMetadata", libs.koin.ksp.compiler)
+    add("kspAndroid", libs.koin.ksp.compiler)
+    add("kspJvm", libs.koin.ksp.compiler)
 
+    add("kspCommonMainMetadata", libs.androidx.room.compiler)
     add("kspAndroid", libs.androidx.room.compiler)
     add("kspJvm", libs.androidx.room.compiler)
 }
@@ -166,6 +179,12 @@ compose.desktop {
     application {
         mainClass = "dev.bugstitch.titanote.MainKt"
 
+        buildTypes.release {
+            proguard {
+
+                configurationFiles.from(project.file("proguard-rules-desktop.pro"))
+            }
+        }
         nativeDistributions {
             targetFormats(
                 TargetFormat.AppImage,
