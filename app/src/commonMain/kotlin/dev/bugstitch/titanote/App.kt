@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,12 +12,15 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import dev.bugstitch.titanote.data.Note
 import dev.bugstitch.titanote.presentation.components.CreateScreenRoute
+import dev.bugstitch.titanote.presentation.components.CreateTaskRoute
 import dev.bugstitch.titanote.presentation.components.HomeRoute
 import dev.bugstitch.titanote.presentation.components.PreviewRoute
+import dev.bugstitch.titanote.presentation.pages.CreateTaskScreen
 import dev.bugstitch.titanote.presentation.pages.EditScreenNew
 import dev.bugstitch.titanote.presentation.pages.HomePage
 import dev.bugstitch.titanote.presentation.pages.PreviewScreen
 import dev.bugstitch.titanote.presentation.theme.TitanoteTheme
+import dev.bugstitch.titanote.presentation.viewmodels.CreateTaskScreenViewModel
 import dev.bugstitch.titanote.presentation.viewmodels.EditScreenViewModel
 import dev.bugstitch.titanote.presentation.viewmodels.HomePageViewModel
 import dev.bugstitch.titanote.presentation.viewmodels.PreviewScreenViewModel
@@ -78,14 +82,24 @@ fun App(){
             }
 
             composable<HomeRoute> {
+
                 val localViewModel: HomePageViewModel = koinViewModel()
 
-                val list = localViewModel.notes.collectAsState()
+                val notes by localViewModel.notes.collectAsState()
+                val tasks by localViewModel.tasks.collectAsState()
+
+                val searchEnabled by localViewModel.searchEnabled.collectAsState()
+                val searchText by localViewModel.searchText.collectAsState()
+                val isSideBarOpen by localViewModel.sideBarOpen.collectAsState()
 
                 HomePage(
-                    noteList = list.value.notes,
-                    searchState = localViewModel.searchState.value,
-                    searchText = localViewModel.searchText.value,
+                    notes = notes,
+                    tasks = tasks,
+
+                    searchEnabled = searchEnabled,
+                    searchText = searchText,
+                    isSideBarOpen = isSideBarOpen,
+
                     onNoteClick = { note ->
                         navController.navigate(
                             PreviewRoute(
@@ -96,8 +110,8 @@ fun App(){
                             )
                         )
                     },
-                    onNoteEditClick = { note->
 
+                    onNoteEdit = { note ->
                         navController.navigate(
                             CreateScreenRoute(
                                 id = note.id,
@@ -107,26 +121,24 @@ fun App(){
                             )
                         )
                     },
-                    onNoteDeleteClick = { note ->
-                        localViewModel.deleteNote(note)
+
+                    onNoteDelete = localViewModel::deleteNote,
+                    onTaskComplete = localViewModel::completeTask,
+                    onTaskDelete = localViewModel::deleteTask,
+
+                    onSearchTextChange = localViewModel::setSearchText,
+                    onSearchToggle = {
+                        localViewModel.setSearchEnabled(!searchEnabled)
                     },
-                    onBack = {
-                        navController.popBackStack()
-                    },
-                    onSearchValueChange = { t->
-                        localViewModel.setSearchText(t)
-                    },
-                    onSearchButtonPressed = {
-                        localViewModel.setSearchState(!localViewModel.searchState.value)
-                    },
-                    isSideBarOpen = localViewModel.sideBarState.value,
-                    onSideBarButtonPress = {
-                        localViewModel.openSideMenu(true)
+
+                    onSideBarToggle = {
+                        localViewModel.openSideBar(true)
                     },
                     onSideBarClose = {
-                        localViewModel.openSideMenu(false)
+                        localViewModel.openSideBar(false)
                     },
-                    onCreate = {
+
+                    onCreateNote = {
                         navController.navigate(
                             CreateScreenRoute(
                                 id = -2,
@@ -135,9 +147,20 @@ fun App(){
                                 date = -20
                             )
                         )
-                    }
+                    },
+
+                    onCreateTask = {
+                        navController.navigate(CreateTaskRoute)
+                    },
+
+                    onBack = {
+                        navController.popBackStack()
+                    },
+
+                    onPageChange = localViewModel::setPage
                 )
             }
+
 
             composable<PreviewRoute>
             { backStackEntry->
@@ -170,6 +193,29 @@ fun App(){
                     }
                 )
 
+            }
+
+            composable<CreateTaskRoute>{
+
+                val localViewModel = koinViewModel<CreateTaskScreenViewModel>()
+
+                CreateTaskScreen(
+                    localViewModel.title.value,
+                    onTitleChange = {
+                        localViewModel.setTitle(it)
+                    },
+                    localViewModel.description.value,
+                    onDescriptionChange = {
+                        localViewModel.setDescription(it)
+                    },
+                    onBackPress = {
+                        navController.popBackStack()
+                    },
+                    onSavePresses ={
+                        localViewModel.saveTask()
+                        navController.popBackStack()
+                    }
+                )
             }
         }
     }

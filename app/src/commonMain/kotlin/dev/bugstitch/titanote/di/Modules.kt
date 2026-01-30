@@ -5,6 +5,7 @@ import dev.bugstitch.titanote.data.room.NotesDao
 import dev.bugstitch.titanote.data.room.NotesDatabase
 import dev.bugstitch.titanote.data.room.TaskDao
 import dev.bugstitch.titanote.domain.repository.TaskRepository
+import dev.bugstitch.titanote.presentation.viewmodels.CreateTaskScreenViewModel
 import dev.bugstitch.titanote.presentation.viewmodels.EditScreenViewModel
 import dev.bugstitch.titanote.presentation.viewmodels.HomePageViewModel
 import dev.bugstitch.titanote.presentation.viewmodels.PreviewScreenViewModel
@@ -30,4 +31,6 @@ val SharedModule = module {
     viewModelOf(::HomePageViewModel)
     viewModelOf(::EditScreenViewModel)
     viewModelOf(::PreviewScreenViewModel)
+    viewModelOf(::CreateTaskScreenViewModel)
+
 }

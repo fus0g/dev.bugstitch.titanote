@@ -20,3 +20,6 @@ data class CreateScreenRoute(
     var content:String,
     var date: Long
 )
+
+@Serializable
+object CreateTaskRoute
